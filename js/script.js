@@ -1,31 +1,34 @@
-let suggestion = "";
 const searchField = document.querySelector(".search-field");
 
+let suggestion = "";
+let ingredHtml = "";
 
+function displayRecipes(arr) {
+  for (recipe of arr) {
+    ingredHtml = "";
+    for (item of recipe.ingredients) {
+      if (typeof item.quantity === "undefined" && typeof item.unit === "undefined") {
+        ingredHtml += `
+          
+        <p>${item.ingredient}</p>
+        
+  `;
+      } else if (typeof item.unit === "undefined") {
+        ingredHtml += `
+        
+            <p>${item.ingredient} : ${item.quantity}</p>
+            
+      `;
+      } else {
+        ingredHtml += `
+        
+      <p>${item.ingredient} : ${item.quantity} ${item.unit}</p>
+      
+`;
+      }
+    }
 
-
-
-
-
-
-console.log(recipes[0].ingredients[0].ingredient);
-
-/* data.items[1].name */
-
-
-
-
-
-
-
-
-
-
-
-
-function htmlRecipe() {
-    
-  suggestion += `
+    suggestion += `
           
           <article class="recipe">
           <div class="recipe-img"></div>
@@ -41,10 +44,7 @@ function htmlRecipe() {
             </div>
             <div class="recipe-description2">
               <div class="recipe-description2-ingred">
-                <p>${recipe.ingredients[0].ingredient}</p>
-                
-                
-                
+              ${ingredHtml}
               </div>
               <div class="recipe-description2-instruct">
                 <p>${recipe.description}</p>
@@ -52,21 +52,25 @@ function htmlRecipe() {
             </div>
           </div>
           </article>
+          
         `;
-}
-
-
-
-function displayRecipes(arr) {
-  for (recipe of arr) {
-    htmlRecipe();
   }
   document.querySelector(".recipes-list").innerHTML = suggestion;
 }
 
-
+//    Afficher les recettes par défaut
 
 displayRecipes(recipes);
+
+/* let resultUstensils = [];
+recipes.forEach(element => {
+
+ if (element.ustensils.includes(input.trim().toLowerCase())) {
+  resultUstensils.push(element)
+ }
+} */
+
+// Listener search bar
 
 searchField.addEventListener("input", function () {
   const input = searchField.value;
@@ -74,7 +78,69 @@ searchField.addEventListener("input", function () {
   if (input.length < 3) {
     displayRecipes(recipes);
   } else if (input.length >= 3) {
+    // Par Nom
     const resultName = recipes.filter((item) => item.name.toLowerCase().includes(input.trim().toLowerCase()));
-    displayRecipes(resultName);
+
+    console.log("Par Nom");
+    console.log(resultName);
+    // Par Appareil
+    const resultAppliance = recipes.filter((item) => item.appliance.toLowerCase().includes(input.trim().toLowerCase()));
+    console.log("Par Appareil");
+    console.log(resultAppliance);
+
+    // Par Ustensils
+
+    const resultUstensils = [];
+
+    recipes.forEach((element) => {
+      const ustensilsList = element.ustensils.join(" ").toString().toLowerCase(); //).split();
+
+      /* ustensilsList.forEach(element2 => {
+      
+      if (element2.includes(input.trim().toLowerCase())) { 
+        console.log(ustensilsList);
+        console.log(element2);
+        resultUstensils.push(element)
+      }; */
+
+      if (ustensilsList.includes(input.trim().toLowerCase())) {
+        resultUstensils.push(element);
+      }
+    });
+
+    /* 
+    const resultUstensils = recipes.filter((element) => 
+    element.ustensils.join(" ").toString().toLowerCase().includes(input.trim().toLowerCase()));
+    
+    
+    ; */
+
+    console.log("Par Ustensils");
+    console.log(resultUstensils);
+
+    // Par Ingrédients
+
+    const resultIngredients = [];
+    recipes.forEach((element) => {
+      element.ingredients.forEach((element2) => {
+        if (element2.ingredient.toLowerCase().includes(input.trim().toLowerCase())) {
+          resultIngredients.push(element);
+        }
+      });
+    });
+
+    console.log("Par ingrédients");
+    console.log(resultIngredients);
+
+    //          Supression des doublons après la fusion des tableaux
+
+    const resultAll = [...new Set([...resultName, ...resultIngredients, ...resultAppliance, ...resultUstensils])];
+
+    // Affichage du tableau de résultats final
+
+    displayRecipes(resultAll);
+
+    console.log("Recherche générale");
+    console.log(resultAll);
   }
 });
