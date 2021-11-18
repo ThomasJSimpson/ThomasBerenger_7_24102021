@@ -3,6 +3,7 @@ const searchField = document.querySelector(".search-field");
 let suggestion = "";
 let ingredHtml = "";
 
+
 function displayRecipes(arr) {
   for (recipe of arr) {
     ingredHtml = "";
@@ -18,7 +19,7 @@ function displayRecipes(arr) {
         
             <p>${item.ingredient} : ${item.quantity}</p>
             
-      `;
+      `; 
       } else {
         ingredHtml += `
         
@@ -62,13 +63,7 @@ function displayRecipes(arr) {
 
 displayRecipes(recipes);
 
-/* let resultUstensils = [];
-recipes.forEach(element => {
 
- if (element.ustensils.includes(input.trim().toLowerCase())) {
-  resultUstensils.push(element)
- }
-} */
 
 // Listener search bar
 
@@ -93,27 +88,28 @@ searchField.addEventListener("input", function () {
     const resultUstensils = [];
 
     recipes.forEach((element) => {
-      const ustensilsList = element.ustensils.join(" ").toString().toLowerCase(); //).split();
+      const ustensilsList = (element.ustensils.join(" ").toLowerCase()).split(' ');
+      // console.log(ustensilsList);
 
-      /* ustensilsList.forEach(element2 => {
+      ustensilsList.forEach(element2 => {
       
       if (element2.includes(input.trim().toLowerCase())) { 
         console.log(ustensilsList);
         console.log(element2);
         resultUstensils.push(element)
-      }; */
+      };
 
-      if (ustensilsList.includes(input.trim().toLowerCase())) {
+/*        if (ustensilsList.includes(input.trim().toLowerCase())) {
         resultUstensils.push(element);
-      }
-    });
+      } */ 
+    })});
 
-    /* 
-    const resultUstensils = recipes.filter((element) => 
-    element.ustensils.join(" ").toString().toLowerCase().includes(input.trim().toLowerCase()));
     
+    /* const resultUstensils = recipes.filter((element) => 
+    element.ustensils.join(" ").toLowerCase().includes(input.trim().toLowerCase())); */
     
-    ; */
+  
+    
 
     console.log("Par Ustensils");
     console.log(resultUstensils);
