@@ -3,7 +3,6 @@ const searchField = document.querySelector(".search-field");
 let suggestion = "";
 let ingredHtml = "";
 
-
 function displayRecipes(arr) {
   for (recipe of arr) {
     ingredHtml = "";
@@ -19,7 +18,7 @@ function displayRecipes(arr) {
         
             <p>${item.ingredient} : ${item.quantity}</p>
             
-      `; 
+      `;
       } else {
         ingredHtml += `
         
@@ -63,80 +62,93 @@ function displayRecipes(arr) {
 
 displayRecipes(recipes);
 
-
-
 // Listener search bar
 
 searchField.addEventListener("input", function () {
-  const input = searchField.value;
+  const input = searchField.value.toLowerCase().trim().split(" ");
+  console.log(input);
   suggestion = "";
-  if (input.length < 3) {
-    displayRecipes(recipes);
-  } else if (input.length >= 3) {
-    // Par Nom
-    const resultName = recipes.filter((item) => item.name.toLowerCase().includes(input.trim().toLowerCase()));
+  const resultAll = [];
+  input.forEach((word) => {
+    // Fonction -> Résultat pour un mot
 
-    console.log("Par Nom");
-    console.log(resultName);
-    // Par Appareil
-    const resultAppliance = recipes.filter((item) => item.appliance.toLowerCase().includes(input.trim().toLowerCase()));
-    console.log("Par Appareil");
-    console.log(resultAppliance);
+    if (input.length < 2 && word.length < 3) {
+      displayRecipes(recipes);
+    } else if (word.length >= 3) {
+      console.log(word);
+      // Par Nom
 
-    // Par Ustensils
+      const resultName = recipes.filter((item) => item.name.toLowerCase().includes(word.trim().toLowerCase()));
 
-    const resultUstensils = [];
+      console.log("Par Nom");
+      console.log(resultName);
 
-    recipes.forEach((element) => {
-      const ustensilsList = (element.ustensils.join(" ").toLowerCase()).split(' ');
-      // console.log(ustensilsList);
+      // Par Description
 
-      ustensilsList.forEach(element2 => {
+      const resultDescr = recipes.filter((item) => item.description.toLowerCase().includes(word.trim().toLowerCase()));
+
+      console.log("Par Description");
+      console.log(resultDescr);
+
+      // Par Appareil
+
+      const resultAppliance = recipes.filter((item) => item.appliance.toLowerCase().includes(word.trim().toLowerCase()));
       
-      if (element2.includes(input.trim().toLowerCase())) { 
-        console.log(ustensilsList);
-        console.log(element2);
-        resultUstensils.push(element)
-      };
+      console.log("Par Appareil");
+      console.log(resultAppliance);
 
-/*        if (ustensilsList.includes(input.trim().toLowerCase())) {
-        resultUstensils.push(element);
-      } */ 
-    })});
+      // Par Ustensils
 
-    
-    /* const resultUstensils = recipes.filter((element) => 
-    element.ustensils.join(" ").toLowerCase().includes(input.trim().toLowerCase())); */
-    
-  
-    
+      const resultUstensils = recipes.filter((element) => element.ustensils.join(" ").toLowerCase().includes(word.trim().toLowerCase()));
 
-    console.log("Par Ustensils");
-    console.log(resultUstensils);
+      console.log("Par Ustensils");
+      console.log(resultUstensils);
 
-    // Par Ingrédients
+      // Par Ingrédients
 
-    const resultIngredients = [];
-    recipes.forEach((element) => {
-      element.ingredients.forEach((element2) => {
-        if (element2.ingredient.toLowerCase().includes(input.trim().toLowerCase())) {
-          resultIngredients.push(element);
-        }
+      const resultIngredients = [];
+      recipes.forEach((element) => {
+        element.ingredients.forEach((element2) => {
+          if (element2.ingredient.toLowerCase().includes(word.trim().toLowerCase())) {
+            resultIngredients.push(element);
+          }
+        });
       });
-    });
 
-    console.log("Par ingrédients");
-    console.log(resultIngredients);
+      console.log("Par ingrédients");
+      console.log(resultIngredients);
 
-    //          Supression des doublons après la fusion des tableaux
+      //          Supression des doublons après la fusion des tableaux
 
-    const resultAll = [...new Set([...resultName, ...resultIngredients, ...resultAppliance, ...resultUstensils])];
+      const resultWord = [...new Set([...resultName, ...resultIngredients, ...resultDescr, ...resultUstensils, ...resultAppliance])];
+      console.log("tableau current word");
 
-    // Affichage du tableau de résultats final
+      console.log(resultWord);
+      // Affichage du tableau de résultats final
+      resultAll.push(...resultWord);
+      console.log("tableau accu");
 
-    displayRecipes(resultAll);
-
-    console.log("Recherche générale");
-    console.log(resultAll);
-  }
+      console.log(resultAll);
+    }
+  });
+  const resultAllWords = [...new Set([...resultAll])];
+  displayRecipes(resultAllWords);
+  console.log("Recherche générale");
+  console.log(resultAllWords);
 });
+
+// Par Ustensils
+
+/*const resultUstensils = [];
+  
+        recipes.forEach((element) => {
+          const ustensilsList = element.ustensils.join(" ").toLowerCase();
+
+           console.log(ustensilsList);
+  
+           ustensilsList.forEach((element2) => {
+            if (element2.includes(word.trim().toLowerCase())) {             
+              resultUstensils.push(element);
+            }
+          });
+        }); */
