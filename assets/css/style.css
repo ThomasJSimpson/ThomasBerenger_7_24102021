@@ -199,7 +199,12 @@ body {
   text-overflow: ellipsis;
 }
 
+
+
 .arrow:hover {
+  cursor: pointer;
+}
+.cross{
   cursor: pointer;
 }
 .advList {
