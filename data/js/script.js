@@ -78,13 +78,13 @@ resultIngredients = resultAllWords; */
 function addTag() {
   itemTag = document.querySelectorAll(".itemTag");
 
-  itemTag.forEach((element) => {
+  for (let element of itemTag) {
     element.addEventListener("click", function () {
       resHtml();
 
       /* if (arrayTags.length < 1) {
-        resultAllWordsMemo = resultAllWords;
-      } */
+          resultAllWordsMemo = resultAllWords;
+        } */
 
       if (arrayTags.some((e) => e.name.toLowerCase() === element.innerText.toLowerCase())) {
       } else {
@@ -106,7 +106,7 @@ function addTag() {
 
           if (document.querySelector(".filter-appliance").classList.contains("filter-box-med")) {
             document.querySelector(".filter-appliance").className = "filter-appliance color-appliance filter-box-min";
-            searchAppli.value = ""; 
+            searchAppli.value = "";
             inputApp = "";
             searchAppli.placeholder = "Appareil";
           } else if (document.querySelector(".filter-appliance").classList.contains("filter-box-larg")) {
@@ -144,6 +144,9 @@ function addTag() {
         return arrayTags.every((tag) => [recipe.appliance.toLowerCase(), ...recipeIngred].concat(recipe.ustensils).includes(tag.name.toLowerCase()));
       });
 
+
+
+
       //console.log(arrayRecipesTags);
       arrayRecipesTags = [...new Set([...arrayRecipesTags])];
       resultAllWords = arrayRecipesTags;
@@ -157,7 +160,7 @@ function addTag() {
       displayTags();
       rmvTag();
     });
-  });
+  }
 }
 
 // retirer un tags
@@ -170,57 +173,59 @@ function arrayRemove(arr, value) {
 
 function displayTags() {
   tagsHtml = "";
-  arrayTags.forEach((tag) => {
+
+  for (tag of arrayTags) {
     if (tag.type === "ustensil") {
       tagsHtml += `      
-    
-        <div class= "tags-item color-ustensils">
-    <p>${tag.name}</p>
-    <img src="./assets/images/cross.svg" alt="cross" class="cross" /> 
-  </div>
   
-        `;
+      <div class= "tags-item color-ustensils">
+  <p>${tag.name}</p>
+  <img src="./assets/images/cross.svg" alt="cross" class="cross" /> 
+</div>
+
+      `;
     } else if (tag.type === "appliance") {
       tagsHtml += ` 
-    
-        <div class= "tags-item color-appliance">
-    <p>${tag.name}</p>
-    <img src="./assets/images/cross.svg" alt="cross" class="cross" /> 
-  </div>
   
-        `;
+      <div class= "tags-item color-appliance">
+  <p>${tag.name}</p>
+  <img src="./assets/images/cross.svg" alt="cross" class="cross" /> 
+</div>
+
+      `;
     } else if (tag.type === "ingredient") {
       tagsHtml += ` 
-    
-        <div class= "tags-item color-ingredients">
-    <p>${tag.name}</p>
-    <img src="./assets/images/cross.svg" alt="cross" class="cross" /> 
-  </div>
   
-        `;
+      <div class= "tags-item color-ingredients">
+  <p>${tag.name}</p>
+  <img src="./assets/images/cross.svg" alt="cross" class="cross" /> 
+</div>
+
+      `;
     }
-  });
+  }
+
   document.querySelector(".tags").innerHTML = tagsHtml;
 }
 
 function rmvTag() {
   crossTag = document.querySelectorAll(".cross");
 
-  crossTag.forEach((element) => {
+  for (element of crossTag) {
     element.addEventListener("click", function () {
       resHtml();
       console.log("avant retrait");
       console.log(arrayTags);
       ////////////////////////////////////////////////////////////////////////////////
       // Retrait objet/tag du tableau de référence
-      arrayTags.forEach((f) => {
+      for (f of arrayTags) {
         console.log(f.name);
         console.log(element.previousElementSibling.innerText);
 
         if (f.name === element.previousElementSibling.innerText) {
           arrayTags = arrayRemove(arrayTags, f);
         }
-      });
+      }
 
       console.log("après retrait");
       console.log(arrayTags);
@@ -230,48 +235,49 @@ function rmvTag() {
       //////////////////////////////////////// Mise a jour affichage des TAGS
 
       tagsHtml = "";
-      arrayTags.forEach((tag) => {
+
+      for (tag of arrayTags) {
         if (tag.type === "ustensil") {
           tagsHtml += `      
-    
-        <div class= "tags-item color-ustensils">
-    <p>${tag.name}</p>
-    <img src="./assets/images/cross.svg" alt="cross" class="cross" /> 
-  </div>
-  
-        `;
+
+<div class= "tags-item color-ustensils">
+<p>${tag.name}</p>
+<img src="./assets/images/cross.svg" alt="cross" class="cross" /> 
+</div>
+
+`;
         } else if (tag.type === "appliance") {
           tagsHtml += ` 
-    
-        <div class= "tags-item color-appliance">
-    <p>${tag.name}</p>
-    <img src="./assets/images/cross.svg" alt="cross" class="cross" /> 
-  </div>
-  
-        `;
+
+<div class= "tags-item color-appliance">
+<p>${tag.name}</p>
+<img src="./assets/images/cross.svg" alt="cross" class="cross" /> 
+</div>
+
+`;
         } else if (tag.type === "ingredient") {
           tagsHtml += ` 
-    
-        <div class= "tags-item color-ingredients">
-    <p>${tag.name}</p>
-    <img src="./assets/images/cross.svg" alt="cross" class="cross" /> 
-  </div>
-  
-        `;
+
+<div class= "tags-item color-ingredients">
+<p>${tag.name}</p>
+<img src="./assets/images/cross.svg" alt="cross" class="cross" /> 
+</div>
+
+`;
         }
-      });
+      }
+
       document.querySelector(".tags").innerHTML = tagsHtml;
 
       /////////////////////////////////////////////////////
 
       // resultAllWords généré a partir des tags/objets restants dans arrayTags
 
-       if (inputMain[0].length >= 3) {
+      if (inputMain[0].length >= 3) {
         resultAllWords = resultAllWordsMemo;
       } else {
         resultAllWords = recipes;
       }
-      
 
       arrayRecipesTags = resultAllWords.filter((recipe) => {
         let recipeIngred = [];
@@ -299,7 +305,7 @@ function rmvTag() {
 
       rmvTag();
     });
-  });
+  }
 }
 
 //rmvTag();
@@ -914,12 +920,11 @@ searchIngred.onclick = function () {
   if (inputIngred.length < 3) {
     ////
     displayRecipes(resultAllWords);
-    console.log(resultAllWords)
+    console.log(resultAllWords);
   } else if (inputIngred.length > 2) {
     resHtml();
     displayRecipes(resultIngredients);
-    console.log(resultIngredients)
-
+    console.log(resultIngredients);
   }
 
   displayAppliance(resultAllWords);
