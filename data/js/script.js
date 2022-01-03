@@ -54,7 +54,6 @@ let inputApp = searchAppli.value.toLowerCase().trim();
 let inputIngred = searchIngred.value.toLowerCase().trim();
 let itemTag = [];
 let itemTag2 = [];
-/* let boolArr = []; */
 
 displayRecipes(resultAllWords);
 displayUstensils(resultAllWords);
@@ -72,21 +71,14 @@ function resHtml() {
   ingredHtmlAdv = "";
 
   suggestion = "";
-  /*  resultUstensils = resultAllWords;
-resultAppliance = resultAllWords;
-resultIngredients = resultAllWords; */
 }
 // Ajouter un tag
 function addTag() {
   itemTag = document.querySelectorAll(".itemTag");
 
-  for (let element of itemTag) {
+  itemTag.forEach((element) => {
     element.addEventListener("click", function () {
       resHtml();
-
-      /* if (arrayTags.length < 1) {
-          resultAllWordsMemo = resultAllWords;
-        } */
 
       if (arrayTags.some((e) => e.name.toLowerCase() === element.innerText.toLowerCase())) {
       } else {
@@ -164,7 +156,7 @@ function addTag() {
       displayTags();
       rmvTag();
     });
-  }
+  });
 }
 
 // retirer un tags
@@ -178,7 +170,7 @@ function arrayRemove(arr, value) {
 function displayTags() {
   tagsHtml = "";
 
-  for (tag of arrayTags) {
+  arrayTags.forEach((tag) => {
     if (tag.type === "ustensil") {
       tagsHtml += `      
   
@@ -207,7 +199,7 @@ function displayTags() {
 
       `;
     }
-  }
+  });
 
   document.querySelector(".tags").innerHTML = tagsHtml;
 }
@@ -310,18 +302,12 @@ function rmvTag() {
   });
 }
 
-//rmvTag();
-/* function rmvTag(cat){
-} */
-
-//cross.forEach((img) =>
-
 //    Afficher les recettes par défaut
 
 function displayRecipes(arr) {
-  for (recipe of arr) {
+  arr.forEach((recipe) => {
     ingredRecipHtml = "";
-    for (item of recipe.ingredients) {
+    recipe.ingredients.forEach((item) => {
       if (typeof item.quantity === "undefined" && typeof item.unit === "undefined") {
         ingredRecipHtml += `
           
@@ -349,7 +335,7 @@ function displayRecipes(arr) {
 `;
         }
       }
-    }
+    });
 
     suggestion += `
           
@@ -377,34 +363,34 @@ function displayRecipes(arr) {
           </article>
           
         `;
-  }
+  });
   document.querySelector(".recipes-list").innerHTML = suggestion;
-  //rmvTag();
 }
 
 function displayUstensils(arr) {
   arrayTest = [];
   arrayTest2 = [];
-  for (recipe of arr) {
-    for (item of recipe.ustensils) {
+
+  arr.forEach((recipe) => {
+    recipe.ustensils.forEach((item) => {
       arrayTest.push(item);
-    }
-  }
+    });
+  });
 
   //Conversion Capitale
 
-  for (ustens of arrayTest) {
+  arrayTest.forEach((ustens) => {
     let capUstens = "";
     capUstens = ustens.charAt(0).toUpperCase() + ustens.slice(1);
     arrayTest2.push(capUstens);
-  }
+  });
 
   // Suppression doubles ustensils
   arrayTest2 = [...new Set([...arrayTest2])];
 
   //Ajout ingrédients HTML
 
-  for (ustens of arrayTest2) {
+  arrayTest2.forEach((ustens) => {
     if (arrayTags.some((e) => e.name.toLowerCase() === ustens.toLowerCase())) {
     } else {
       ustensilsHTML += `
@@ -413,16 +399,12 @@ function displayUstensils(arr) {
       
       `;
     }
-  }
+  });
 
   document.querySelector(".advListUst").innerHTML = ustensilsHTML;
-  //addTag("ustensils");
-  //rmvTag();
 }
-//addTag();
 
 function displayAppliance(arr) {
-  // console.log(arr);
   arrayTestApp = [];
 
   arr.forEach((element) => {
@@ -431,31 +413,27 @@ function displayAppliance(arr) {
 
   //Conversion Capitale
   arrayTest2App = [];
-  for (appl of arrayTestApp) {
+
+  arrayTestApp.forEach((appl) => {
     let capApp = "";
-    //console.log(appl);
     capApp = appl.charAt(0).toUpperCase() + appl.slice(1);
-    //console.log(capApp);
     arrayTest2App.push(capApp);
-  }
+  });
 
   // Suppression doubles ustensils
   arrayTest2App = [...new Set([...arrayTest2App])];
 
   //Ajout ingrédients HTML
 
-  for (appl of arrayTest2App) {
+  arrayTest2App.forEach((appl) => {
     if (arrayTags.some((e) => e.name.toLowerCase() === appl.toLowerCase())) {
     } else {
       applianceHTML += `
       <li class="itemTag">${appl}</li>
       `;
     }
-  }
-
+  });
   document.querySelector(".advListApp").innerHTML = applianceHTML;
-  //addTag("appliance");
-  //rmvTag();
 }
 //////////////////////////////////////////
 //////////////////////////////////////////
@@ -481,21 +459,20 @@ function displayIngredients(arr) {
 
   //Conversion Capitale
   arrayTest2Ingred = [];
-  for (ingred of arrayTestIngred) {
+
+  arrayTestIngred.forEach((ingred) => {
     ingred = ingred.toLowerCase();
     let capIngred = "";
     capIngred = ingred.charAt(0).toUpperCase() + ingred.slice(1);
     arrayTest2Ingred.push(capIngred);
-  }
+  });
 
-  // console.log(arrayTest2);
   // Suppression doubles ustensils
   arrayTest2Ingred = [...new Set([...arrayTest2Ingred])];
-  //console.log(arrayTest2Ingred);
 
   //Ajout ingrédients HTML
 
-  for (ingred of arrayTest2Ingred) {
+  arrayTest2Ingred.forEach((ingred) => {
     if (arrayTags.some((e) => e.name.toLowerCase() === ingred.toLowerCase())) {
     } else {
       ingredHtml += `
@@ -504,15 +481,9 @@ function displayIngredients(arr) {
 
 `;
     }
-  }
+  });
   document.querySelector(".advListIngred").innerHTML = ingredHtml;
-  //addTag("ingredients");
-  //rmvTag();
 }
-//////////////////////////////////////////
-//////////////////////////////////////////
-//////////////////////////////////////////
-//////////////////////////////////////////
 
 // Listener search bar
 searchMain.onclick = function () {
@@ -547,7 +518,7 @@ searchMain.addEventListener("input", function () {
   resHtml();
   console.log(inputMain);
   resultAllwords2 = [];
-  //////////////////////////
+ 
   if (arrayTags.length < 1) {
     resultAllWords = recipes;
   }
@@ -560,11 +531,11 @@ searchMain.addEventListener("input", function () {
     applianceHTML = "";
     ingredHtml = "";
     suggestion = ""; */
-    //console.log('pas encore')
+    
   } else if (inputMain[0].length >= 3) {
     //console.log(inputMain)
 
-    /*      resultAllWords = resultAllWords.filter((recipe) => {
+    resultAllWords = resultAllWords.filter((recipe) => {
       let recipeIngred1 = [];
 
       recipe.ingredients.forEach((ingred) => {
@@ -578,8 +549,8 @@ searchMain.addEventListener("input", function () {
 
     console.log(search);
 
-    resultAllWordsMemo = resultAllWords; */
-    for (recipe of resultAllWords) {
+    resultAllWordsMemo = resultAllWords;
+    /* for (recipe of resultAllWords) {
       let boolArr = [];
       let recipeIngred1 = [];
       let arr = [];
@@ -622,7 +593,7 @@ searchMain.addEventListener("input", function () {
       //console.log(typeof search);
 
       /*       search.toString();
-      console.log(search.toString()); */
+      console.log(search.toString()); 
 
       ///////////////////////////////
       ///////////////////////////////
@@ -644,7 +615,7 @@ searchMain.addEventListener("input", function () {
 
 
 
-          } */
+          } 
 
           for (letter of wordRecipe) {
             // console.log(letter);
@@ -679,7 +650,7 @@ searchMain.addEventListener("input", function () {
                     boolArr = [...new Set([...boolArr])];
                   }
                 }
-              } */
+              } 
             }
           }
 
@@ -688,7 +659,7 @@ searchMain.addEventListener("input", function () {
 
             boolArr.push(wordInput);
             boolArr = [...new Set([...boolArr])];
-          } */
+          } 
         }
         //console.log(recipe);
         boolArr = [...new Set([...boolArr])];
@@ -700,7 +671,7 @@ searchMain.addEventListener("input", function () {
         resultAllWords = resultAllwords2;
         resultAllWordsMemo = resultAllWords;
       }
-    }
+    } */
   }
 
   //console.log(resultAllWords)
@@ -768,14 +739,12 @@ searchMain.addEventListener("input", function () {
     }
   }); */
 
-  //console.log(resultAllWords);
   displayRecipes(resultAllWords);
   displayUstensils(resultAllWords);
   displayAppliance(resultAllWords);
   displayIngredients(resultAllWords);
   console.log("Recherche générale");
   console.log(resultAllWords);
-  // rmvTag();
 });
 
 // Listener Ustensils
@@ -786,7 +755,6 @@ searchUstens.onclick = function () {
   searchIngred.placeholder = "Ingrédients";
   document.querySelector(".ingredients").className = "ingredients filter-title-input color-ingredients";
 
-  // searchIngred.placeholder.style.opacity= "0.5";
   searchAppli.value = "";
   searchAppli.placeholder = "Appareil";
   document.querySelector(".appliance").className = "appliance filter-title-input color-appliance";
@@ -797,7 +765,6 @@ searchUstens.onclick = function () {
 
   if (inputUst.length < 3) {
     displayRecipes(resultAllWords);
-    //console.log(resultAllWords);
   } else if (inputUst.length > 2) {
     resHtml();
     displayRecipes(resultUstensils);
@@ -805,8 +772,6 @@ searchUstens.onclick = function () {
 
   displayAppliance(resultAllWords);
   displayIngredients(resultAllWords);
-  //addTag("ustensils");
-  // rmvTag();
 };
 
 arrowUstens.onclick = function () {
@@ -875,22 +840,20 @@ searchUstens.addEventListener("input", function () {
 
     resultUstensils = resultAllWords.filter((element) => element.ustensils.join(" ").toLowerCase().includes(inputUst.trim().toLowerCase()));
     console.log(resultAllWords[0].ustensils.join(" ").toLowerCase());
-    for (recipe of resultUstensils) {
-      for (item of recipe.ustensils) {
-        // console.log(recipe.ustensils);
-        // console.log(item);
+
+    resultUstensils.forEach((recipe) => {
+      recipe.ustensils.forEach((item) => {
         arrayTestAdv.push(item);
-      }
-    }
-    // console.log(arrayTest);
+      });
+    });
 
     //Conversion Capitale
 
-    for (ustens of arrayTestAdv) {
+    arrayTestAdv.forEach((ustens) => {
       let capUstens = "";
       capUstens = ustens.charAt(0).toUpperCase() + ustens.slice(1);
       arrayTest2Adv.push(capUstens);
-    }
+    });
 
     // console.log(arrayTest2);
     // Suppression doubles ustensils
@@ -901,7 +864,7 @@ searchUstens.addEventListener("input", function () {
     //console.log(arrayTest2Adv);
     //ustensilsHTML = "";
 
-    for (ustens of arrayTest2Adv) {
+    arrayTest2Adv.forEach((ustens) => {
       if (ustens.toLowerCase().includes(inputUst)) {
         ustensilsHTMLAdv += `
   
@@ -909,20 +872,13 @@ searchUstens.addEventListener("input", function () {
         
         `;
       }
-    }
+    });
 
     document.querySelector(".advListUst").innerHTML = ustensilsHTMLAdv;
 
     displayRecipes(resultUstensils);
-
-    //console.log(resultUstensils);
-    // console.log(resultUstensils);
   }
   addTag();
-  // rmvTag();
-
-  /* console.log("Par Ustensils");
-  console.log(resultUstensils); */
 });
 
 //////////////////////////////////////////
@@ -1027,21 +983,20 @@ searchAppli.addEventListener("input", function () {
     });
 
     //Conversion Capitale
-
-    for (appl of arrayTestAppAdv) {
+    arrayTestAppAdv.forEach((appl) => {
       let capApp = "";
 
       capApp = appl.charAt(0).toUpperCase() + appl.slice(1);
 
       arrayTest2AppAdv.push(capApp);
-    }
+    });
 
     // Suppression doubles ustensils
     arrayTest2AppAdv = [...new Set([...arrayTest2AppAdv])];
 
     //Ajout ingrédients HTML
 
-    for (appl of arrayTest2AppAdv) {
+    arrayTest2AppAdv.forEach((appl) => {
       if (appl.toLowerCase().includes(inputApp)) {
         applianceHTMLAdv += `
   
@@ -1049,8 +1004,7 @@ searchAppli.addEventListener("input", function () {
         
         `;
       }
-    }
-
+    });
     document.querySelector(".advListApp").innerHTML = applianceHTMLAdv;
     displayRecipes(resultAppliance);
   }
@@ -1079,7 +1033,6 @@ searchIngred.onclick = function () {
   resultUstensils = resultAllWords;
 
   if (inputIngred.length < 3) {
-    ////
     displayRecipes(resultAllWords);
     console.log(resultAllWords);
   } else if (inputIngred.length > 2) {
@@ -1087,14 +1040,9 @@ searchIngred.onclick = function () {
     displayRecipes(resultIngredients);
     console.log(resultIngredients);
   }
-
   displayAppliance(resultAllWords);
   displayUstensils(resultAllWords);
-  //addTag("ingredients");
 };
-//////////////////////////////////////////
-//////////////////////////////////////////
-//////////////////////////////////////////
 
 arrowIngred.onclick = function () {
   document.querySelector(".filter-ustensils").className = "filter-ustensils color-ustensils filter-box-min";
@@ -1132,10 +1080,6 @@ arrowIngred.onclick = function () {
   }
   addTag();
 };
-//////////////////////////////////////////
-//////////////////////////////////////////
-//////////////////////////////////////////
-//////////////////////////////////////////
 
 searchIngred.addEventListener("input", function () {
   inputIngred = searchIngred.value.toLowerCase().trim();
@@ -1196,19 +1140,20 @@ searchIngred.addEventListener("input", function () {
     //Conversion Capitale
 
     arrayTest2IngredAdv = [];
-    for (ingred of arrayTestIngredAdv) {
+
+    arrayTestIngredAdv.forEach((ingred) => {
       ingred = ingred.toLowerCase();
       let capIngred = "";
       capIngred = ingred.charAt(0).toUpperCase() + ingred.slice(1);
       arrayTest2IngredAdv.push(capIngred);
-    }
-    // console.log(arrayTest2);
+    });
+
     // Suppression doubles ingred
     arrayTest2IngredAdv = [...new Set([...arrayTest2IngredAdv])];
-    //console.log(arrayTest2IngredAdv);
+
     //Ajout ingrédients HTML
 
-    for (ingred of arrayTest2IngredAdv) {
+    arrayTest2IngredAdv.forEach((ingred) => {
       if (ingred.toLowerCase().includes(inputIngred)) {
         ingredHtmlAdv += `
   
@@ -1216,156 +1161,11 @@ searchIngred.addEventListener("input", function () {
         
         `;
       }
-    }
+    });
 
     document.querySelector(".advListIngred").innerHTML = ingredHtmlAdv;
 
     displayRecipes(resultIngredients);
-    //rmvTag();
-
-    // console.log(resultUstensils);
   }
   addTag();
-
-  /* console.log("Par Ustensils");
-  console.log(resultUstensils); */
 });
-//////////////////////////////////////////
-//////////////////////////////////////////
-//////////////////////////////////////////
-//////////////////////////////////////////
-
-/* document.querySelector(".cross").onclick = function () {
-    console.log('Test')
-    }  */
-// TEST JS BENCH
-
-// trello site
-
-/* tag = tag.toLowerCase();
-               
-              recipe.ingredients.forEach((i) => 
-              i.ingredient.toLowerCase().includes(tag.trim().toLowerCase())
-            )
-
-           
-
-            || */
-
-//console.log(arrayRecipesTags);
-
-/*  let itemsIngred = [];
-      resultAllWords.forEach((element) => {
-        element.ingredients.forEach((element2) => {
-          
-            itemsIngred.push(element2.ingredient.toLowerCase());
-          
-        });
-      });
-
-arrayRecipesTags = resultAllWords.filter((recipe) => {
-  console.log(recipe.ustensils.join(" ").toLowerCase())
-  const tags = [recipe.appliance.toLowerCase(), ...[recipe.ustensils.join(" ").toLowerCase()], ...itemsIngred];
-  console.log(tags)
-  console.log(arrayTags)
-  console.log(arrayTags.every(f => tags.includes(f)));
-  return arrayTags.every(f => tags.includes(f));
-  
-}); */
-
-////////////////////////////////// IMPORTANT BRANCH 2/////////
-
-/*         resultAllWords.forEach((recipe) => {
-
-
-           arrayTags.forEach((tag) => { 
-
-        
-if(
-
-
-  (
-    recipe.ingredients.forEach((element2) => {
-      (element2.ingredient.toLowerCase().includes(tag.trim().toLowerCase())) 
-        
-    })
-  ) 
-
-  ||
-
-
-(
-  recipe.ustensils.join(" ").toLowerCase().includes(tag.trim().toLowerCase())
-      
-    
-  )
-  ||
-  (
-    recipe.appliance.toLowerCase().includes(tag.trim().toLowerCase())        
-      
-    )
-){
-
-  arrayRecipesTags0.push(recipe);
-console.log(arrayRecipesTags0)
-}
-  
-
-
-
-
-
-
-  }) 
-
-}) */
-
-/* 
-  arrayTestAdv = [];
-  arrayTest2Adv = [];
-  for (recipe of arr) {
-    for (item of recipe.ustensils) {
-      
-      arrayTestAdv.push(item);
-    }
-  }
-  
-
-  //Conversion Capitale
-
-  for (ustens of arrayTestAdv) {
-    let capUstens = "";
-    capUstens = ustens.charAt(0).toUpperCase() + ustens.slice(1);
-    arrayTest2Adv.push(capUstens);
-  }
-
-  
-  // Suppression doubles ustensils
-  arrayTest2Adv = [...new Set([...arrayTest2Adv])];
-
-  //Ajout ingrédients HTML
-
-  
-
-
-
-
-  for (ustens of arrayTest2Adv) {
-    if (ustens.toLowerCase().includes(inputUst)) {
-
-
-      ustensilsHTMLAdv += `
-
-      <p class = "itemUstensil">${ustens}</p>
-      
-      `;
-      
-    }
-    
-  }
-  
-
-  document.querySelector(".advList").innerHTML = ustensilsHTMLAdv;
-
-
- */
