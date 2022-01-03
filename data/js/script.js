@@ -32,6 +32,7 @@ let resultAll = [];
 let resultAll2 = [];
 let arrayTest = [];
 let arrayTestAdv = [];
+let resultAllwords2 = [];
 
 let arrayTest2 = [];
 let arrayTest2Adv = [];
@@ -53,6 +54,7 @@ let inputApp = searchAppli.value.toLowerCase().trim();
 let inputIngred = searchIngred.value.toLowerCase().trim();
 let itemTag = [];
 let itemTag2 = [];
+/* let boolArr = []; */
 
 displayRecipes(resultAllWords);
 displayUstensils(resultAllWords);
@@ -100,6 +102,7 @@ function addTag() {
             searchUstens.value = "";
             inputUst = "";
             searchUstens.placeholder = "Recherche un ustensile";
+            document.querySelector(".ustensils").className = "ustensils filter-title-input2 color-ustensils";
           }
         } else if (element.parentElement.classList.contains("advListApp")) {
           arrayTags.push({ name: element.innerText, type: "appliance" });
@@ -109,10 +112,12 @@ function addTag() {
             searchAppli.value = "";
             inputApp = "";
             searchAppli.placeholder = "Appareil";
+            document.querySelector(".appliance").className = "appliance filter-title-input color-appliance";
           } else if (document.querySelector(".filter-appliance").classList.contains("filter-box-larg")) {
             searchAppli.value = "";
             inputApp = "";
             searchAppli.placeholder = "Recherche un appareil";
+            document.querySelector(".appliance").className = "appliance filter-title-input2 color-appliance";
           }
         } else if (element.parentElement.classList.contains("advListIngred")) {
           arrayTags.push({ name: element.innerText, type: "ingredient" });
@@ -122,10 +127,12 @@ function addTag() {
             searchIngred.value = "";
             inputIngred = "";
             searchIngred.placeholder = "Ingrédients";
+            document.querySelector(".ingredients").className = "ingredients filter-title-input color-ingredients";
           } else if (document.querySelector(".filter-ingredients").classList.contains("filter-box-larg")) {
             searchIngred.value = "";
             inputIngred = "";
             searchIngred.placeholder = "Recherche un ingrédient";
+            document.querySelector(".ingredients").className = "ingredients filter-title-input2 color-ingredients";
           }
         }
         console.log("ajout");
@@ -143,9 +150,6 @@ function addTag() {
 
         return arrayTags.every((tag) => [recipe.appliance.toLowerCase(), ...recipeIngred].concat(recipe.ustensils).includes(tag.name.toLowerCase()));
       });
-
-
-
 
       //console.log(arrayRecipesTags);
       arrayRecipesTags = [...new Set([...arrayRecipesTags])];
@@ -211,21 +215,21 @@ function displayTags() {
 function rmvTag() {
   crossTag = document.querySelectorAll(".cross");
 
-  for (element of crossTag) {
+  crossTag.forEach((element) => {
     element.addEventListener("click", function () {
       resHtml();
       console.log("avant retrait");
       console.log(arrayTags);
       ////////////////////////////////////////////////////////////////////////////////
       // Retrait objet/tag du tableau de référence
-      for (f of arrayTags) {
+      arrayTags.forEach((f) => {
         console.log(f.name);
         console.log(element.previousElementSibling.innerText);
 
         if (f.name === element.previousElementSibling.innerText) {
           arrayTags = arrayRemove(arrayTags, f);
         }
-      }
+      });
 
       console.log("après retrait");
       console.log(arrayTags);
@@ -235,38 +239,36 @@ function rmvTag() {
       //////////////////////////////////////// Mise a jour affichage des TAGS
 
       tagsHtml = "";
-
-      for (tag of arrayTags) {
+      arrayTags.forEach((tag) => {
         if (tag.type === "ustensil") {
           tagsHtml += `      
-
-<div class= "tags-item color-ustensils">
-<p>${tag.name}</p>
-<img src="./assets/images/cross.svg" alt="cross" class="cross" /> 
-</div>
-
-`;
+    
+        <div class= "tags-item color-ustensils">
+    <p>${tag.name}</p>
+    <img src="./assets/images/cross.svg" alt="cross" class="cross" /> 
+  </div>
+  
+        `;
         } else if (tag.type === "appliance") {
           tagsHtml += ` 
-
-<div class= "tags-item color-appliance">
-<p>${tag.name}</p>
-<img src="./assets/images/cross.svg" alt="cross" class="cross" /> 
-</div>
-
-`;
+    
+        <div class= "tags-item color-appliance">
+    <p>${tag.name}</p>
+    <img src="./assets/images/cross.svg" alt="cross" class="cross" /> 
+  </div>
+  
+        `;
         } else if (tag.type === "ingredient") {
           tagsHtml += ` 
-
-<div class= "tags-item color-ingredients">
-<p>${tag.name}</p>
-<img src="./assets/images/cross.svg" alt="cross" class="cross" /> 
-</div>
-
-`;
+    
+        <div class= "tags-item color-ingredients">
+    <p>${tag.name}</p>
+    <img src="./assets/images/cross.svg" alt="cross" class="cross" /> 
+  </div>
+  
+        `;
         }
-      }
-
+      });
       document.querySelector(".tags").innerHTML = tagsHtml;
 
       /////////////////////////////////////////////////////
@@ -305,7 +307,7 @@ function rmvTag() {
 
       rmvTag();
     });
-  }
+  });
 }
 
 //rmvTag();
@@ -323,21 +325,29 @@ function displayRecipes(arr) {
       if (typeof item.quantity === "undefined" && typeof item.unit === "undefined") {
         ingredRecipHtml += `
           
-        <p>${item.ingredient}</p>
+        <p><span class="bold">${item.ingredient}</span></p>
         
   `;
       } else if (typeof item.unit === "undefined") {
         ingredRecipHtml += `
         
-            <p>${item.ingredient} : ${item.quantity}</p>
+            <p><span class="bold">${item.ingredient}</span> : ${item.quantity}</p>
             
       `;
       } else {
-        ingredRecipHtml += `
+        if (item.unit.length > 2) {
+          ingredRecipHtml += `
         
-      <p>${item.ingredient} : ${item.quantity} ${item.unit}</p>
+  <p><span class="bold">${item.ingredient}</span> : ${item.quantity} ${item.unit}</p>
+  
+`;
+        } else {
+          ingredRecipHtml += `
+        
+      <p><span class="bold">${item.ingredient}</span> : ${item.quantity}${item.unit}</p>
       
 `;
+        }
       }
     }
 
@@ -399,7 +409,7 @@ function displayUstensils(arr) {
     } else {
       ustensilsHTML += `
 
-      <p class="itemTag"> ${ustens} </p>
+      <li class="itemTag"> ${ustens} </li>
       
       `;
     }
@@ -438,7 +448,7 @@ function displayAppliance(arr) {
     if (arrayTags.some((e) => e.name.toLowerCase() === appl.toLowerCase())) {
     } else {
       applianceHTML += `
-      <p class="itemTag">${appl}</p>
+      <li class="itemTag">${appl}</li>
       `;
     }
   }
@@ -490,7 +500,7 @@ function displayIngredients(arr) {
     } else {
       ingredHtml += `
 
-<p class="itemTag">${ingred}</p>
+<li class="itemTag">${ingred}</li>
 
 `;
     }
@@ -511,10 +521,16 @@ searchMain.onclick = function () {
   document.querySelector(".filter-appliance").className = "filter-appliance color-appliance filter-box-min";
   searchUstens.value = "";
   searchUstens.placeholder = "Ustensiles";
+  document.querySelector(".ustensils").className = "ustensils filter-title-input color-ustensils";
+
   searchIngred.value = "";
   searchIngred.placeholder = "Ingrédients";
+  document.querySelector(".ingredients").className = "ingredients filter-title-input color-ingredients";
+
   searchIngred.value = "";
   searchAppli.placeholder = "Appareil";
+  document.querySelector(".appliance").className = "appliance filter-title-input color-appliance";
+
   searchAppli.value = "";
   resHtml();
   displayRecipes(resultAllWords);
@@ -529,7 +545,8 @@ searchMain.onclick = function () {
 searchMain.addEventListener("input", function () {
   inputMain = searchMain.value.toLowerCase().trim().split(" ");
   resHtml();
-
+  console.log(inputMain);
+  resultAllwords2 = [];
   //////////////////////////
   if (arrayTags.length < 1) {
     resultAllWords = recipes;
@@ -547,7 +564,7 @@ searchMain.addEventListener("input", function () {
   } else if (inputMain[0].length >= 3) {
     //console.log(inputMain)
 
-    resultAllWords = resultAllWords.filter((recipe) => {
+    /*      resultAllWords = resultAllWords.filter((recipe) => {
       let recipeIngred1 = [];
 
       recipe.ingredients.forEach((ingred) => {
@@ -558,9 +575,132 @@ searchMain.addEventListener("input", function () {
 
       return inputMain.every((word) => search.includes(word));
     });
+
     console.log(search);
 
-    resultAllWordsMemo = resultAllWords;
+    resultAllWordsMemo = resultAllWords; */
+    for (recipe of resultAllWords) {
+      let boolArr = [];
+      let recipeIngred1 = [];
+      let arr = [];
+      //console.log(recipe);
+      //console.log(recipe.ingredients);
+      ///////////////////////////////
+      ///////////////////////////////
+      ///////////////////////////////
+      ///////////////////////////////
+      ///////////////////////////////
+      ///////////////////////////////
+      ///////////////////////////////
+      ///////////////////////////////
+
+      for (ingred of recipe.ingredients) {
+        //  console.log(ingred);
+        // console.log(ingred.ingredient.toLowerCase());
+        recipeIngred1.push(ingred.ingredient.toLowerCase());
+      }
+      //console.log((recipeIngred1).join(" "));
+
+      search = recipe.name.toLowerCase() + " " + recipeIngred1.join(" ") + " " + recipe.description.toLowerCase();
+      //console.log(typeof search);
+      //console.log(search);
+
+
+///Suppression ponctuation 
+      for (el of search) {
+        if (el === "." || el === "," || el === ":" || el === "(" || el === ")") {
+        } else {
+          arr.push(el);
+        }
+      }
+      search = arr.join("");
+      console.log(search);
+
+      //search = search.split(" ");
+      //console.log(search);
+
+      //console.log(typeof search);
+
+      /*       search.toString();
+      console.log(search.toString()); */
+
+      ///////////////////////////////
+      ///////////////////////////////
+      ///////////////////////////////
+      ///////////////////////////////
+      ///////////////////////////////
+      ///////////////////////////////
+
+      for (wordRecipe of search) {
+         //console.log(wordRecipe);
+
+        for (wordInput of inputMain) {
+          //console.log(wordInput);
+          //console.log(wordRecipe);
+
+          /*  for (let i = 0; i < wordRecipe.length; i++) {
+            
+
+
+
+
+          } */
+
+          for (letter of wordRecipe) {
+            // console.log(letter);
+            //console.log(wordRecipe);
+
+            //for (letter2 of wordInput)
+
+            for (let i = 0; i < wordInput.length; i++) {
+              
+             // console.log(wordInput[i]);
+              
+              y = i + 1;
+              //console.log(y);
+
+              //console.log(wordInput[i);
+
+              //console.log(wordInput[i]);
+
+              /* 
+              if (letter2 === letter) {
+          console.log(wordRecipe);
+
+
+
+                if (letter2 + 1 === letter + 1) {
+          console.log(letter2 [+1]);
+
+                  if (letter2 + 2 === letter + 2) {
+          console.log(letter2 [+2])
+
+                    boolArr.push(wordInput);
+                    boolArr = [...new Set([...boolArr])];
+                  }
+                }
+              } */
+            }
+          }
+
+          /* if (wordRecipe === wordInput) {
+            //console.log(wordInput)
+
+            boolArr.push(wordInput);
+            boolArr = [...new Set([...boolArr])];
+          } */
+        }
+        //console.log(recipe);
+        boolArr = [...new Set([...boolArr])];
+      }
+
+      if (boolArr.length === inputMain.length) {
+        resultAllwords2.push(recipe);
+        console.log(resultAllwords2);
+        resultAllWords = resultAllwords2;
+        resultAllWordsMemo = resultAllWords;
+      }
+    }
   }
 
   //console.log(resultAllWords)
@@ -644,9 +784,12 @@ searchUstens.onclick = function () {
   document.querySelector(".filter-appliance").className = "filter-appliance color-appliance filter-box-min";
   searchIngred.value = "";
   searchIngred.placeholder = "Ingrédients";
+  document.querySelector(".ingredients").className = "ingredients filter-title-input color-ingredients";
+
   // searchIngred.placeholder.style.opacity= "0.5";
   searchAppli.value = "";
   searchAppli.placeholder = "Appareil";
+  document.querySelector(".appliance").className = "appliance filter-title-input color-appliance";
 
   resHtml();
   resultAppliance = resultAllWords;
@@ -671,8 +814,12 @@ arrowUstens.onclick = function () {
   document.querySelector(".filter-appliance").className = "filter-appliance color-appliance filter-box-min";
   searchIngred.value = "";
   searchIngred.placeholder = "Ingrédients";
+  document.querySelector(".ingredients").className = "ingredients filter-title-input color-ingredients";
+
   searchAppli.value = "";
   searchAppli.placeholder = "Appareil";
+  document.querySelector(".appliance").className = "appliance filter-title-input color-appliance";
+
   searchUstens.value = "";
   searchUstens.placeholder = "Ustensiles";
 
@@ -688,9 +835,11 @@ arrowUstens.onclick = function () {
   if (document.querySelector(".filter-ustensils").classList.contains("filter-box-min") || document.querySelector(".filter-ustensils").classList.contains("filter-box-med")) {
     document.querySelector(".filter-ustensils").className = "filter-ustensils color-ustensils filter-box-larg";
     searchUstens.placeholder = "Recherche un ustensile";
+    document.querySelector(".ustensils").className = "ustensils filter-title-input2 color-ustensils";
   } else if (document.querySelector(".filter-ustensils").classList.contains("filter-box-larg")) {
     document.querySelector(".filter-ustensils").className = "filter-ustensils color-ustensils filter-box-min";
     searchUstens.placeholder = "Ustensiles";
+    document.querySelector(".ustensils").className = "ustensils filter-title-input color-ustensils";
   }
   addTag();
 
@@ -725,7 +874,7 @@ searchUstens.addEventListener("input", function () {
     }
 
     resultUstensils = resultAllWords.filter((element) => element.ustensils.join(" ").toLowerCase().includes(inputUst.trim().toLowerCase()));
-
+    console.log(resultAllWords[0].ustensils.join(" ").toLowerCase());
     for (recipe of resultUstensils) {
       for (item of recipe.ustensils) {
         // console.log(recipe.ustensils);
@@ -756,7 +905,7 @@ searchUstens.addEventListener("input", function () {
       if (ustens.toLowerCase().includes(inputUst)) {
         ustensilsHTMLAdv += `
   
-        <p class="itemTag">${ustens}</p>
+        <li class="itemTag">${ustens}</li>
         
         `;
       }
@@ -785,8 +934,11 @@ searchAppli.onclick = function () {
   document.querySelector(".filter-ingredients").className = "filter-ingredients color-ingredients filter-box-min";
   searchUstens.value = "";
   searchUstens.placeholder = "Ustensiles";
+  document.querySelector(".ustensils").className = "ustensils filter-title-input color-ustensils";
+
   searchIngred.value = "";
   searchIngred.placeholder = "Ingrédients";
+  document.querySelector(".ingredients").className = "ingredients filter-title-input color-ingredients";
 
   resHtml();
   resultUstensils = resultAllWords;
@@ -810,10 +962,15 @@ arrowAppli.onclick = function () {
   document.querySelector(".filter-ingredients").className = "filter-ingredients color-ingredients filter-box-min";
   searchUstens.value = "";
   searchUstens.placeholder = "Ustensiles";
+  document.querySelector(".ustensils").className = "ustensils filter-title-input color-ustensils";
+
   searchAppli.value = "";
   searchAppli.placeholder = "Appareil";
+  document.querySelector(".appliance").className = "appliance filter-title-input color-appliance";
+
   searchIngred.value = "";
   searchIngred.placeholder = "Ingrédients";
+  document.querySelector(".ingredients").className = "ingredients filter-title-input color-ingredients";
 
   resHtml();
   resultAppliance = resultAllWords;
@@ -828,9 +985,11 @@ arrowAppli.onclick = function () {
   if (document.querySelector(".filter-appliance").classList.contains("filter-box-min") || document.querySelector(".filter-appliance").classList.contains("filter-box-med")) {
     document.querySelector(".filter-appliance").className = "filter-appliance color-appliance filter-box-larg";
     searchAppli.placeholder = "Recherche un appareil";
+    document.querySelector(".appliance").className = "appliance filter-title-input2 color-appliance";
   } else if (document.querySelector(".filter-appliance").classList.contains("filter-box-larg")) {
     document.querySelector(".filter-appliance").className = "filter-appliance color-appliance filter-box-min";
     searchAppli.placeholder = "Appareil";
+    document.querySelector(".appliance").className = "appliance filter-title-input color-appliance";
   }
   addTag();
   // rmvTag();
@@ -886,7 +1045,7 @@ searchAppli.addEventListener("input", function () {
       if (appl.toLowerCase().includes(inputApp)) {
         applianceHTMLAdv += `
   
-        <p class = "itemTag" >${appl}</p>
+        <li class = "itemTag" >${appl}</li>
         
         `;
       }
@@ -913,6 +1072,8 @@ searchIngred.onclick = function () {
   searchUstens.placeholder = "Ustensiles";
   searchAppli.value = "";
   searchAppli.placeholder = "Appareil";
+  document.querySelector(".appliance").className = "appliance filter-title-input color-appliance";
+
   resHtml();
   resultAppliance = resultAllWords;
   resultUstensils = resultAllWords;
@@ -940,10 +1101,15 @@ arrowIngred.onclick = function () {
   document.querySelector(".filter-appliance").className = "filter-appliance color-appliance filter-box-min";
   searchIngred.value = "";
   searchIngred.placeholder = "Ingrédients";
+  document.querySelector(".ingredients").className = "ingredients filter-title-input color-ingredients";
+
   searchUstens.value = "";
   searchUstens.placeholder = "Ustensiles";
+  document.querySelector(".ustensils").className = "ustensils filter-title-input color-ustensils";
+
   searchAppli.value = "";
   searchAppli.placeholder = "Appareil";
+  document.querySelector(".appliance").className = "appliance filter-title-input color-appliance";
 
   resHtml();
   ////
@@ -958,9 +1124,11 @@ arrowIngred.onclick = function () {
   if (document.querySelector(".filter-ingredients").classList.contains("filter-box-min") || document.querySelector(".filter-ingredients").classList.contains("filter-box-med")) {
     document.querySelector(".filter-ingredients").className = "filter-ingredients color-ingredients filter-box-larg";
     searchIngred.placeholder = "Recherche un ingrédient";
+    document.querySelector(".ingredients").className = "ingredients filter-title-input2 color-ingredients";
   } else if (document.querySelector(".filter-ingredients").classList.contains("filter-box-larg")) {
     document.querySelector(".filter-ingredients").className = "filter-ingredients color-ingredients filter-box-min";
     searchIngred.placeholder = "Ingrédients";
+    document.querySelector(".ingredients").className = "ingredients filter-title-input color-ingredients";
   }
   addTag();
 };
@@ -1044,7 +1212,7 @@ searchIngred.addEventListener("input", function () {
       if (ingred.toLowerCase().includes(inputIngred)) {
         ingredHtmlAdv += `
   
-        <p class="itemTag">${ingred}</p>
+        <li class="itemTag">${ingred}</li>
         
         `;
       }
