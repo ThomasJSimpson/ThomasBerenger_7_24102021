@@ -11,7 +11,7 @@ let list = document.querySelector(".advList");
 /* let itemUstensil2 =  */
 
 let suggestion = "";
-let ingredRecipHtml = "";
+/* let ingredRecipHtml = ""; */
 let ingredHtml = "";
 let ingredHtmlAdv = "";
 let applianceHTML = "";
@@ -47,6 +47,9 @@ let arrayRecipesTags0 = [];
 let arrayRecipesTags = [];
 
 let newArray = [];
+let boolArr = [];
+let recipeIngred1 = [];
+let arr = [];
 
 let inputMain = searchMain.value.toLowerCase().trim().split(" ");
 let inputUst = searchUstens.value.toLowerCase().trim();
@@ -63,15 +66,13 @@ displayIngredients(resultAllWords);
 function resHtml() {
   ustensilsHTML = "";
   ustensilsHTMLAdv = "";
-
   applianceHTML = "";
   applianceHTMLAdv = "";
-
   ingredHtml = "";
   ingredHtmlAdv = "";
-
   suggestion = "";
 }
+
 // Ajouter un tag
 function addTag() {
   itemTag = document.querySelectorAll(".itemTag");
@@ -306,7 +307,7 @@ function rmvTag() {
 
 function displayRecipes(arr) {
   arr.forEach((recipe) => {
-    ingredRecipHtml = "";
+    let ingredRecipHtml = "";
     recipe.ingredients.forEach((item) => {
       if (typeof item.quantity === "undefined" && typeof item.unit === "undefined") {
         ingredRecipHtml += `
@@ -435,27 +436,15 @@ function displayAppliance(arr) {
   });
   document.querySelector(".advListApp").innerHTML = applianceHTML;
 }
-//////////////////////////////////////////
-//////////////////////////////////////////
-//////////////////////////////////////////
-//////////////////////////////////////////
-//////////////////////////////////////////
-//////////////////////////////////////////
 
 function displayIngredients(arr) {
-  // console.log(arr);
   arrayTestIngred = [];
 
   arr.forEach((element) => {
     element.ingredients.forEach((element2) => {
-      //console.log(element2.ingredient);
       arrayTestIngred.push(element2.ingredient);
-      //console.log(arrayTestIngred);
     });
   });
-
-  //console.log(arrayTestIngred);
-  // console.log(arrayTest);
 
   //Conversion Capitale
   arrayTest2Ingred = [];
@@ -518,7 +507,7 @@ searchMain.addEventListener("input", function () {
   resHtml();
   console.log(inputMain);
   resultAllwords2 = [];
- 
+
   if (arrayTags.length < 1) {
     resultAllWords = recipes;
   }
@@ -531,11 +520,8 @@ searchMain.addEventListener("input", function () {
     applianceHTML = "";
     ingredHtml = "";
     suggestion = ""; */
-    
   } else if (inputMain[0].length >= 3) {
-    //console.log(inputMain)
-
-    resultAllWords = resultAllWords.filter((recipe) => {
+    /* resultAllWords = resultAllWords.filter((recipe) => {
       let recipeIngred1 = [];
 
       recipe.ingredients.forEach((ingred) => {
@@ -549,195 +535,55 @@ searchMain.addEventListener("input", function () {
 
     console.log(search);
 
-    resultAllWordsMemo = resultAllWords;
-    /* for (recipe of resultAllWords) {
-      let boolArr = [];
-      let recipeIngred1 = [];
-      let arr = [];
-      //console.log(recipe);
-      //console.log(recipe.ingredients);
-      ///////////////////////////////
-      ///////////////////////////////
-      ///////////////////////////////
-      ///////////////////////////////
-      ///////////////////////////////
-      ///////////////////////////////
-      ///////////////////////////////
-      ///////////////////////////////
+    resultAllWordsMemo = resultAllWords; */
+    for (recipe of resultAllWords) {
+      boolArr = [];
+      recipeIngred1 = [];
+      arr = [];
 
       for (ingred of recipe.ingredients) {
-        //  console.log(ingred);
-        // console.log(ingred.ingredient.toLowerCase());
         recipeIngred1.push(ingred.ingredient.toLowerCase());
       }
-      //console.log((recipeIngred1).join(" "));
 
       search = recipe.name.toLowerCase() + " " + recipeIngred1.join(" ") + " " + recipe.description.toLowerCase();
-      //console.log(typeof search);
-      //console.log(search);
 
-
-///Suppression ponctuation 
+      ///Suppression ponctuation
       for (el of search) {
         if (el === "." || el === "," || el === ":" || el === "(" || el === ")") {
         } else {
           arr.push(el);
         }
       }
+
       search = arr.join("");
       console.log(search);
 
-      //search = search.split(" ");
-      //console.log(search);
-
-      //console.log(typeof search);
-
-      /*       search.toString();
-      console.log(search.toString()); 
-
-      ///////////////////////////////
-      ///////////////////////////////
-      ///////////////////////////////
-      ///////////////////////////////
-      ///////////////////////////////
-      ///////////////////////////////
+      search = search.split(" ");
+      console.log(search);
 
       for (wordRecipe of search) {
-         //console.log(wordRecipe);
-
         for (wordInput of inputMain) {
-          //console.log(wordInput);
-          //console.log(wordRecipe);
-
-          /*  for (let i = 0; i < wordRecipe.length; i++) {
-            
-
-
-
-
-          } 
-
-          for (letter of wordRecipe) {
-            // console.log(letter);
-            //console.log(wordRecipe);
-
-            //for (letter2 of wordInput)
-
-            for (let i = 0; i < wordInput.length; i++) {
-              
-             // console.log(wordInput[i]);
-              
-              y = i + 1;
-              //console.log(y);
-
-              //console.log(wordInput[i);
-
-              //console.log(wordInput[i]);
-
-              /* 
-              if (letter2 === letter) {
-          console.log(wordRecipe);
-
-
-
-                if (letter2 + 1 === letter + 1) {
-          console.log(letter2 [+1]);
-
-                  if (letter2 + 2 === letter + 2) {
-          console.log(letter2 [+2])
-
-                    boolArr.push(wordInput);
-                    boolArr = [...new Set([...boolArr])];
-                  }
-                }
-              } 
-            }
-          }
-
-          /* if (wordRecipe === wordInput) {
-            //console.log(wordInput)
-
+          if (wordRecipe === wordInput) {
             boolArr.push(wordInput);
             boolArr = [...new Set([...boolArr])];
-          } 
+          }
         }
-        //console.log(recipe);
-        boolArr = [...new Set([...boolArr])];
+
+        // boolArr = [...new Set([...boolArr])];
       }
 
       if (boolArr.length === inputMain.length) {
         resultAllwords2.push(recipe);
-        console.log(resultAllwords2);
+        console.log(resultAllWords);
         resultAllWords = resultAllwords2;
         resultAllWordsMemo = resultAllWords;
       }
-    } */
+    }
   }
 
   //console.log(resultAllWords)
 
   ////////////////////////
-
-  /* resultAll = [];
-  console.log(inputMain);
-  // resultAllWordsMemo = [];
-  inputMain.forEach((word) => {
-    if (inputMain.length < 2 && word.length < 3) {
-      ustensilsHTML = "";
-      applianceHTML = "";
-      ingredHtml = "";
-      suggestion = "";
-
-      if (arrayTags.length < 1) {
-        resultAllWords = recipes;
-      }
-      if (arrayTags.length >= 1) {
-        resultAllWords = arrayRecipesTags;
-      }
-    } else if (word.length >= 3) {
-      console.log(word);
-      // Par Nom
-
-      const resultName = resultAllWords.filter((item) => item.name.toLowerCase().includes(word.trim().toLowerCase()));
-
-      console.log("Par Nom");
-      console.log(resultName);
-
-      // Par Description
-
-      const resultDescr = resultAllWords.filter((item) => item.description.toLowerCase().includes(word.trim().toLowerCase()));
-
-      console.log("Par Description");
-      console.log(resultDescr);
-
-      // Par Ingrédients
-
-      resultIngredients = [];
-      resultAllWords.forEach((element) => {
-        element.ingredients.forEach((element2) => {
-          if (element2.ingredient.toLowerCase().includes(word.trim().toLowerCase())) {
-            resultIngredients.push(element);
-          }
-        });
-      });
-
-      console.log("Par ingrédients");
-      console.log(resultIngredients);
-
-      //          Supression des doublons après la fusion des tableaux
-
-      const resultWord = [...new Set([...resultName, ...resultIngredients, ...resultDescr])];
-      console.log("tableau current word");
-
-      console.log(resultWord);
-
-      // Affichage du tableau de résultats final
-      resultAll.push(...resultWord);
-      console.log("tableau accu");
-      console.log(resultAll);
-      resultAllWords = [...new Set([...resultAll])];
-    }
-  }); */
 
   displayRecipes(resultAllWords);
   displayUstensils(resultAllWords);
@@ -881,8 +727,6 @@ searchUstens.addEventListener("input", function () {
   addTag();
 });
 
-//////////////////////////////////////////
-
 // Appareils
 
 searchAppli.onclick = function () {
@@ -1010,11 +854,6 @@ searchAppli.addEventListener("input", function () {
   }
   addTag();
 });
-//////////////////////////////////////////
-//////////////////////////////////////////
-//////////////////////////////////////////
-//////////////////////////////////////////
-//////////////////////////////////////////
 
 // Ingrédients
 
@@ -1169,3 +1008,64 @@ searchIngred.addEventListener("input", function () {
   }
   addTag();
 });
+
+/* resultAll = [];
+  console.log(inputMain);
+  // resultAllWordsMemo = [];
+  inputMain.forEach((word) => {
+    if (inputMain.length < 2 && word.length < 3) {
+      ustensilsHTML = "";
+      applianceHTML = "";
+      ingredHtml = "";
+      suggestion = "";
+
+      if (arrayTags.length < 1) {
+        resultAllWords = recipes;
+      }
+      if (arrayTags.length >= 1) {
+        resultAllWords = arrayRecipesTags;
+      }
+    } else if (word.length >= 3) {
+      console.log(word);
+      // Par Nom
+
+      const resultName = resultAllWords.filter((item) => item.name.toLowerCase().includes(word.trim().toLowerCase()));
+
+      console.log("Par Nom");
+      console.log(resultName);
+
+      // Par Description
+
+      const resultDescr = resultAllWords.filter((item) => item.description.toLowerCase().includes(word.trim().toLowerCase()));
+
+      console.log("Par Description");
+      console.log(resultDescr);
+
+      // Par Ingrédients
+
+      resultIngredients = [];
+      resultAllWords.forEach((element) => {
+        element.ingredients.forEach((element2) => {
+          if (element2.ingredient.toLowerCase().includes(word.trim().toLowerCase())) {
+            resultIngredients.push(element);
+          }
+        });
+      });
+
+      console.log("Par ingrédients");
+      console.log(resultIngredients);
+
+      //          Supression des doublons après la fusion des tableaux
+
+      const resultWord = [...new Set([...resultName, ...resultIngredients, ...resultDescr])];
+      console.log("tableau current word");
+
+      console.log(resultWord);
+
+      // Affichage du tableau de résultats final
+      resultAll.push(...resultWord);
+      console.log("tableau accu");
+      console.log(resultAll);
+      resultAllWords = [...new Set([...resultAll])];
+    }
+  }); */
