@@ -50,7 +50,6 @@ let newArray = [];
 let boolArr = [];
 let recipeIngred1 = [];
 let arr = [];
-let arr2 = [];
 
 let inputMain = searchMain.value.toLowerCase().trim().split(" ");
 let inputUst = searchUstens.value.toLowerCase().trim();
@@ -283,6 +282,28 @@ function rmvTag() {
       /////////////////////////////////////////////////////
 
       // resultAllWords généré a partir des tags/objets restants dans arrayTags
+      if (arrayTags.length === 0 && inputMain[0].length >= 3) {
+        resultAllWords = recipes;
+        resultAllWords = resultAllWords.filter((recipe) => {
+          let recipeIngred1 = [];
+
+          recipe.ingredients.forEach((ingred) => {
+            recipeIngred1.push(ingred.ingredient.toLowerCase());
+          });
+
+          search = recipe.name.toLowerCase() + " " + recipeIngred1 + " " + recipe.description.toLowerCase();
+
+          return inputMain.every((word) => search.includes(word));
+        });
+
+        console.log(search);
+
+        resultAllWordsMemo = resultAllWords;
+
+        if (resultAllWords != recipes) {
+          resultOk.push(true);
+        }
+      }
 
       if (inputMain.length === 0) {
         resultAllWords = recipes;
@@ -307,15 +328,13 @@ function rmvTag() {
         return arrayTags.every((tag) => [recipe.appliance.toLowerCase(), ...recipeIngred].concat(recipe.ustensils).includes(tag.name.toLowerCase()));
       });
 
-      //console.log(arrayRecipesTags);
+      console.log(arrayRecipesTags);
       arrayRecipesTags = [...new Set([...arrayRecipesTags])];
       resultAllWords = arrayRecipesTags;
       displayRecipes(resultAllWords);
-      console.log(resultAllWords);
       displayAppliance(resultAllWords);
       displayIngredients(resultAllWords);
       displayUstensils(resultAllWords);
-      console.log(arrayTags);
 
       ///////////////////////////////////////////////////
       addTag();
@@ -545,9 +564,31 @@ searchMain.addEventListener("input", function () {
   if (arrayTags.length < 1) {
     resultAllWords = recipes;
   }
+  if (arrayTags.length >= 1 && inputMain.length === 0) {
+    resultAllWords = recipes;
+
+    arrayRecipesTags = resultAllWords.filter((recipe) => {
+      let recipeIngred = [];
+
+      recipe.ingredients.forEach((ingred) => {
+        recipeIngred.push(ingred.ingredient.toLowerCase());
+      });
+      //search = [recipe.appliance.toLowerCase(), ...recipeIngred].concat(recipe.ustensils);
+
+      return arrayTags.every((tag) => [recipe.appliance.toLowerCase(), ...recipeIngred].concat(recipe.ustensils).includes(tag.name.toLowerCase()));
+    });
+    arrayRecipesTags = [...new Set([...arrayRecipesTags])];
+    resultAllWords = arrayRecipesTags;
+    /* addTag();
+      displayTags();
+      rmvTag(); */
+  }
+
   if (arrayTags.length >= 1) {
     resultAllWords = arrayRecipesTags;
+    console.log(arrayRecipesTags);
   }
+
   console.log(inputMain.length);
   if (inputMain.length === 0) {
     resultOk = [true];
@@ -558,35 +599,35 @@ searchMain.addEventListener("input", function () {
     if (inputMain[0].length >= 3) {
       //////////// Version Programmation fonctionnelle //////////////
 
-      /* resultAllWords = resultAllWords.filter((recipe) => {
-      let recipeIngred1 = [];
+      resultAllWords = resultAllWords.filter((recipe) => {
+        let recipeIngred1 = [];
 
-      recipe.ingredients.forEach((ingred) => {
-        recipeIngred1.push(ingred.ingredient.toLowerCase());
+        recipe.ingredients.forEach((ingred) => {
+          recipeIngred1.push(ingred.ingredient.toLowerCase());
+        });
+
+        search = recipe.name.toLowerCase() + " " + recipeIngred1 + " " + recipe.description.toLowerCase();
+
+        return inputMain.every((word) => search.includes(word));
       });
 
-      search = recipe.name.toLowerCase() + " " + recipeIngred1 + " " + recipe.description.toLowerCase();
+      console.log(search);
 
-      return inputMain.every((word) => search.includes(word));
-    });
+      resultAllWordsMemo = resultAllWords;
+      console.log(resultAllWords);
+      console.log(recipes);
 
-
-    console.log(search);
-
-    resultAllWordsMemo = resultAllWords;
-
-    if(resultAllWords != recipes){
-      resultOk.push(true);
-    }  */
+      if (resultAllWords != recipes && resultAllWords.length != 0) {
+        resultOk.push(true);
+      }
       /////////////////////////////////////////////////////////////
 
       //////////// Première version Boucles Natives //////////////
 
-      for (recipe of resultAllWords) {
+      /* for (recipe of resultAllWords) {
         boolArr = [];
         recipeIngred1 = [];
         arr = [];
-        arr2 = [];
 
         for (ingred of recipe.ingredients) {
           recipeIngred1.push(ingred.ingredient.toLowerCase());
@@ -628,7 +669,7 @@ searchMain.addEventListener("input", function () {
           resultOk.push(true);
           console.log(resultOk);
         }
-      }
+      } */
       ////////////////////////////////////////////
     }
   }
