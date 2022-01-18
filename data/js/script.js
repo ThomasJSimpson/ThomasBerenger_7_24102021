@@ -31,7 +31,7 @@ let resultAll = [];
 let resultAll2 = [];
 let arrayTest = [];
 let arrayTestAdv = [];
-let mainResult2 = [];
+let mainResultTemp = [];
 let resultOk = [true];
 
 let arrayTest2 = [];
@@ -336,8 +336,6 @@ function rmvTag() {
             return inputMain.every((word) => search.includes(word));
           });
 
-          console.log(search);
-
           mainResultMemo = mainResult;
 
           if (mainResult != recipes) {
@@ -590,7 +588,7 @@ searchMain.addEventListener("input", function () {
   inputMain = searchMain.value.toLowerCase().trim().split(" ");
   inputMain = inputMain.filter((el) => el != "");
   resHtml();
-  mainResult2 = [];
+  mainResultTemp = [];
   resultOk = [];
   inputMain = [...new Set([...inputMain])];
 
@@ -631,7 +629,7 @@ searchMain.addEventListener("input", function () {
     if (inputMain[0].length >= 3) {
       //////////// Version Programmation fonctionnelle //////////////
 
-      /* mainResult = mainResult.filter((recipe) => {
+      mainResult = mainResult.filter((recipe) => {
         let recipeIngred1 = [];
 
         recipe.ingredients.forEach((ingred) => {
@@ -643,20 +641,16 @@ searchMain.addEventListener("input", function () {
         return inputMain.every((word) => search.includes(word));
       });
 
-      console.log(search);
-
       mainResultMemo = mainResult;
-      console.log(mainResult);
-      console.log(recipes);
 
       if (mainResult != recipes && mainResult.length != 0) {
         resultOk.push(true);
-      } */
+      }
       /////////////////////////////////////////////////////////////
 
       //////////// Première version Boucles Natives //////////////
 
-      for (recipe of mainResult) {
+      /* recipeLoop: for (recipe of mainResult) {
         let boolArr = [];
         let recipeIngred1 = [];
         let arr = [];
@@ -688,26 +682,23 @@ searchMain.addEventListener("input", function () {
 
                 if (stringTest === wordInput) {
                   boolArr.push(wordInput);
-                  /* i = wordSearch.length; */
                   continue inputLoop;
                 }
               }
             }
           }
+          if (boolArr.length < 1) {
+            continue recipeLoop;
+          }
         }
 
-        /* boolArr = [...new Set([...boolArr])]; */
-
-
         if (boolArr.length === inputMain.length) {
-          
-
-          mainResult2.push(recipe);
-          mainResult = mainResult2;
-          mainResultMemo = mainResult;
+          mainResultTemp.push(recipe);
           resultOk.push(true);
         }
       }
+      mainResult = mainResultTemp;
+      mainResultMemo = mainResult; */
       ////////////////////////////////////////////
     }
   }
