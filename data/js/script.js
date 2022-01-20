@@ -688,8 +688,8 @@ arrowUstens.onclick = function () {
   /* resultAppliance = mainResult;
   resultIngredients = mainResult;
   resultUstensils = mainResult; */
-  displayRecipes(mainResult);
-  /* displayAppliance(mainResult);
+/*   displayRecipes(mainResult);
+ */  /* displayAppliance(mainResult);
   displayIngredients(mainResult); */
   displayUstensils(mainResult);
 
@@ -721,8 +721,8 @@ searchUstens.addEventListener("input", function () {
 
   /* resultAppliance = mainResult;
   resultIngredients = mainResult; */
-  let arrayTestAdv = [];
-  let arrayTest2Adv = [];
+  let itemList = [];
+  let itemList2 = [];
 
   if (inputUst.length < 3) {
     if (document.querySelector(".filter-ustensils").classList.contains("filter-box-med")) {
@@ -752,24 +752,24 @@ searchUstens.addEventListener("input", function () {
 
     resultUstensils.forEach((recipe) => {
       recipe.ustensils.forEach((item) => {
-        arrayTestAdv.push(item);
+        itemList.push(item);
       });
     });
 
     //Conversion Capitale
 
-    arrayTestAdv.forEach((ustens) => {
+    itemList.forEach((ustens) => {
       let capUstens = "";
       capUstens = ustens.charAt(0).toUpperCase() + ustens.slice(1);
-      arrayTest2Adv.push(capUstens);
+      itemList2.push(capUstens);
     });
 
     // Suppression doubles ustensils
-    arrayTest2Adv = [...new Set([...arrayTest2Adv])];
+    itemList2 = [...new Set([...itemList2])];
 
     //Ajout ingrédients HTML
     let ustensilsHTML = "";
-    arrayTest2Adv.forEach((ustens) => {
+    itemList2.forEach((ustens) => {
       if (ustens.toLowerCase().includes(inputUst)) {
         arrayTags;
         if (arrayTags.some((e) => e.name.toLowerCase() === ustens.toLowerCase())) {
@@ -820,10 +820,8 @@ searchAppli.onclick = function () {
   resultIngredients = mainResult; */
 
   if (inputApp.length < 3) {
-    console.log("1");
     displayRecipes(mainResult);
   } else if (inputApp.length > 2) {
-    console.log("2");
     displayRecipes(resultAppliance);
   }
 
@@ -887,8 +885,8 @@ searchAppli.addEventListener("input", function () {
   resultIngredients = mainResult; */
 
   resultAppliance = [];
-  let arrayTestAppAdv = [];
-  let arrayTest2AppAdv = [];
+  let itemList = [];
+  let itemList2 = [];
   if (inputApp.length < 3) {
     if (document.querySelector(".filter-appliance").classList.contains("filter-box-med")) {
       document.querySelector(".filter-appliance").className = "filter-appliance color-appliance filter-box-min";
@@ -914,24 +912,24 @@ searchAppli.addEventListener("input", function () {
     resultAppliance = mainResult.filter((item) => item.appliance.toLowerCase().includes(inputApp.trim().toLowerCase()));
 
     resultAppliance.forEach((element) => {
-      arrayTestAppAdv.push(element.appliance);
+      itemList.push(element.appliance);
     });
 
     //Conversion Capitale
-    arrayTestAppAdv.forEach((appl) => {
+    itemList.forEach((appl) => {
       let capApp = "";
 
       capApp = appl.charAt(0).toUpperCase() + appl.slice(1);
 
-      arrayTest2AppAdv.push(capApp);
+      itemList2.push(capApp);
     });
 
     // Suppression doubles ustensils
-    arrayTest2AppAdv = [...new Set([...arrayTest2AppAdv])];
+    itemList2 = [...new Set([...itemList2])];
 
     //Ajout ingrédients HTML
     let applianceHTML = "";
-    arrayTest2AppAdv.forEach((appl) => {
+    itemList2.forEach((appl) => {
       if (appl.toLowerCase().includes(inputApp)) {
         if (arrayTags.some((e) => e.name.toLowerCase() === appl.toLowerCase())) {
         } else {
@@ -1006,10 +1004,10 @@ arrowIngred.onclick = function () {
   /* resultAppliance = mainResult;
   resultIngredients = mainResult;
   resultUstensils = mainResult; */
-  displayRecipes(mainResult);
-  displayAppliance(mainResult);
+  /* displayRecipes(mainResult);
+  displayAppliance(mainResult); */
   displayIngredients(mainResult);
-  displayUstensils(mainResult);
+  /* displayUstensils(mainResult); */
 
   if (document.querySelector(".filter-ingredients").classList.contains("filter-box-min") || document.querySelector(".filter-ingredients").classList.contains("filter-box-med")) {
     if (document.documentElement.clientWidth > 849) {
@@ -1033,12 +1031,11 @@ arrowIngred.onclick = function () {
 
 searchIngred.addEventListener("input", function () {
   inputIngred = searchIngred.value.toLowerCase().trim();
-
   /* resultAppliance = mainResult;
   resultUstensils = mainResult; */
 
-  let arrayTestIngredAdv = [];
-  let arrayTest2IngredAdv = [];
+  let itemList = [];
+  let itemList2 = [];
 
   if (inputIngred.length < 3) {
     if (document.querySelector(".filter-ingredients").classList.contains("filter-box-med")) {
@@ -1073,28 +1070,28 @@ searchIngred.addEventListener("input", function () {
 
     resultIngredients.forEach((element) => {
       element.ingredients.forEach((element2) => {
-        arrayTestIngredAdv.push(element2.ingredient);
+        itemList.push(element2.ingredient);
       });
     });
 
     //Conversion Capitale
 
-    arrayTest2IngredAdv = [];
+    itemList2 = [];
 
-    arrayTestIngredAdv.forEach((ingred) => {
+    itemList.forEach((ingred) => {
       ingred = ingred.toLowerCase();
       let capIngred = "";
       capIngred = ingred.charAt(0).toUpperCase() + ingred.slice(1);
-      arrayTest2IngredAdv.push(capIngred);
+      itemList2.push(capIngred);
     });
 
     // Suppression doubles ingred
-    arrayTest2IngredAdv = [...new Set([...arrayTest2IngredAdv])];
+    itemList2 = [...new Set([...itemList2])];
 
     //Ajout ingrédients HTML
     let ingredHtml = "";
 
-    arrayTest2IngredAdv.forEach((ingred) => {
+    itemList2.forEach((ingred) => {
       if (ingred.toLowerCase().includes(inputIngred)) {
         if (arrayTags.some((e) => e.name.toLowerCase() === ingred.toLowerCase())) {
         } else {
