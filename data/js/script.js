@@ -575,57 +575,21 @@ searchMain.addEventListener("input", function () {
       resultOk = [true];
     }
     if (inputMain[0].length >= 3) {
-
-      let mainResultTemp = [];
-
-      recipeLoop: for (recipe of mainResult) {
-        let validWord = [];
+      mainResult = mainResult.filter((recipe) => {
         let recipeIngred = [];
-        let arr = [];
 
-        for (let ingred of recipe.ingredients) {
+        recipe.ingredients.forEach((ingred) => {
           recipeIngred.push(ingred.ingredient.toLowerCase());
-        }
+        });
 
-        let search = recipe.name.toLowerCase() + " " + recipeIngred.join(" ") + " " + recipe.description.toLowerCase();
+        let search = recipe.name.toLowerCase() + " " + recipeIngred + " " + recipe.description.toLowerCase();
 
-        ///Suppression ponctuation
+        return inputMain.every((word) => search.includes(word));
+      });
 
-        for (let el of search) {
-          if (el === "." || el === "," || el === ":" || el === "(" || el === ")" || el === "!") {
-          } else {
-            arr.push(el);
-          }
-        }
-
-        search = arr.join("");
-
-        search = search.split(" ");
-
-        inputLoop: for (let wordInput of inputMain) {
-          for (let wordSearch of search) {
-            for (let i = 0; i < wordSearch.length; i++) {
-              if (wordInput[0] === wordSearch[i]) {
-                let stringTest = wordSearch.slice(i, i + wordInput.length);
-
-                if (stringTest === wordInput) {
-                  validWord.push(wordInput);
-                  continue inputLoop;
-                }
-              }
-            }
-          }
-          if (validWord.length < 1) {
-            continue recipeLoop;
-          }
-        }
-
-        if (validWord.length === inputMain.length) {
-          mainResultTemp.push(recipe);
-          resultOk.push(true);
-        }
+      if (mainResult != recipes && mainResult.length != 0) {
+        resultOk.push(true);
       }
-      mainResult = mainResultTemp;
     }
   }
 
@@ -688,8 +652,8 @@ arrowUstens.onclick = function () {
   /* resultAppliance = mainResult;
   resultIngredients = mainResult;
   resultUstensils = mainResult; */
-/*   displayRecipes(mainResult);
- */  /* displayAppliance(mainResult);
+  /*   displayRecipes(mainResult);
+   */ /* displayAppliance(mainResult);
   displayIngredients(mainResult); */
   displayUstensils(mainResult);
 
