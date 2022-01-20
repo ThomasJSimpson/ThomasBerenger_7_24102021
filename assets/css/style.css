@@ -18,7 +18,7 @@ html {
 body {
   max-width: 1240px;
   margin: 0 100px 0;
-  /* min-width: 465px; */
+  min-width: 375px;
 }
 
 /* ::placeholder {
