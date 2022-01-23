@@ -549,13 +549,13 @@ searchMain.addEventListener("input", function () {
 
         search = arr.join("");
 
-        search = search.split(" ");
 
         inputLoop: for (let wordInput of inputMain) {
-          for (let wordSearch of search) {
-            for (let i = 0; i < wordSearch.length; i++) {
-              if (wordInput[0] === wordSearch[i]) {
-                let stringTest = wordSearch.slice(i, i + wordInput.length);
+          
+            for (let i = 0; i < search.length; i++) {
+              if (wordInput[0] === search[i]) {
+
+                let stringTest = search.slice(i, i + wordInput.length);
 
                 if (stringTest === wordInput) {
                   validWord.push(wordInput);
@@ -563,7 +563,7 @@ searchMain.addEventListener("input", function () {
                 }
               }
             }
-          }
+          
           if (validWord.length < 1) {
             continue recipeLoop;
           }
