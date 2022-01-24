@@ -109,128 +109,42 @@
 
 let mainResult = recipes;
 let inputMain = ["coco" , "limonade"];
-let resultOk = [];
-let resultAllWordsMemo = [];
-let mainResultMemo = [];
+
 
 algo1
 
 
 
-    resultAllWords = resultAllWords.filter((recipe) => {
-      let recipeIngred1 = [];
-
-      recipe.ingredients.forEach((ingred) => {
-        recipeIngred1.push(ingred.ingredient.toLowerCase());
-      });
-
-      search = recipe.name.toLowerCase() + " " + recipeIngred1 + " " + recipe.description.toLowerCase();
-
-      return inputMain.every((word) => search.includes(word));
-    });
-
-    resultAllWordsMemo = resultAllWords;
-
-    if (resultAllWords != recipes && resultAllWords.length != 0) {
-        resultOk.push(true);
-      }
-
-      ////////////////////////////////////////////////////////////////////////////////////////////////////
-mainResult = mainResult.filter((recipe) => {
-        let recipeIngred1 = [];
+    mainResult = mainResult.filter((recipe) => {
+        let recipeIngred = [];
 
         recipe.ingredients.forEach((ingred) => {
-          recipeIngred1.push(ingred.ingredient.toLowerCase());
+          recipeIngred.push(ingred.ingredient.toLowerCase());
         });
 
-        let search = recipe.name.toLowerCase() + " " + recipeIngred1 + " " + recipe.description.toLowerCase();
+        let search = recipe.name.toLowerCase() + " " + recipeIngred + " " + recipe.description.toLowerCase();
 
         return inputMain.every((word) => search.includes(word));
       });
 
-      
 
-      mainResultMemo = mainResult;
-      
-
-      if (mainResult != recipes && mainResult.length != 0) {
-        resultOk.push(true);
-      }
       ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 algo2
 
 
-let resultAllwords2 = [];
+let mainResultTemp = [];
 
-
-for (recipe of resultAllWords) {
-       let boolArr = [];
-       let recipeIngred1 = [];
-       let arr = [];
-
-        for (let ingred of recipe.ingredients) {
-          recipeIngred1.push(ingred.ingredient.toLowerCase());
-        }
-
-        search = recipe.name.toLowerCase() + " " + recipeIngred1.join(" ") + " " + recipe.description.toLowerCase();
-
-        ///Suppression ponctuation
-
-        for (let el of search) {
-          if (el === "." || el === "," || el === ":" || el === "(" || el === ")" || el === "!") {
-          } else {
-            arr.push(el);
-          }
-        }
-
-        search = arr.join("");
-
-        search = search.split(" ");
-
-        for (let wordInput of inputMain) {
-          for (let wordSearch of search) {
-            for (let i = 0; i < wordSearch.length; i++) {
-              if (wordInput[0] === wordSearch[i]) {
-                if (wordSearch.slice(i, i + wordInput.length) === wordInput) {
-                  boolArr.push(wordInput);
-                }
-              }
-            }
-          }
-        }
-
-        boolArr = [...new Set([...boolArr])];
-
-        if (boolArr.length === inputMain.length) {
-          resultAllwords2.push(recipe);
-          resultAllWords = resultAllwords2;
-          resultAllWordsMemo = resultAllWords;
-          
-          resultOk.push(true);
-        
-        }
-      }
-
-
-
-      ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        let mainResult2 = [];
-
-
-for (let recipe of mainResult) {
-        let boolArr = [];
-        let recipeIngred1 = [];
+      recipeLoop: for (recipe of mainResult) {
+        let validWord = [];
+        let recipeIngred = [];
         let arr = [];
 
         for (let ingred of recipe.ingredients) {
-          recipeIngred1.push(ingred.ingredient.toLowerCase());
+          recipeIngred.push(ingred.ingredient.toLowerCase());
         }
 
-        search = recipe.name.toLowerCase() + " " + recipeIngred1.join(" ") + " " + recipe.description.toLowerCase();
-        
-        ///Suppression ponctuation
+        let search = recipe.name.toLowerCase() + " " + recipeIngred.join(" ") + " " + recipe.description.toLowerCase();
 
         for (let el of search) {
           if (el === "." || el === "," || el === ":" || el === "(" || el === ")" || el === "!") {
@@ -238,36 +152,30 @@ for (let recipe of mainResult) {
             arr.push(el);
           }
         }
-        
 
         search = arr.join("");
-        
-
-        search = search.split(" ");
 
         inputLoop: for (let wordInput of inputMain) {
-          for (let wordSearch of search) {
-            for (let i = 0; i < wordSearch.length; i++) {
-              if (wordInput[0] === wordSearch[i]) {
-                let stringTest = wordSearch.slice(i, i + wordInput.length);
+          
+            for (let i = 0; i < search.length; i++) {
+              if (wordInput[0] === search[i]) {
+                
+                let stringTest = search.slice(i, i + wordInput.length);
 
                 if (stringTest === wordInput) {
-                  boolArr.push(wordInput);
-                  i = wordSearch.length; 
+                  validWord.push(wordInput);
                   continue inputLoop;
                 }
               }
             }
+          
+          if (validWord.length < 1) {
+            continue recipeLoop;
           }
         }
 
-        boolArr = [...new Set([...boolArr])];
-
-        if (boolArr.length === inputMain.length) {
-          mainResult2.push(recipe);
-          mainResult = mainResult2;
-          mainResultMemo = mainResult;
-          resultOk.push(true);
-          
+        if (validWord.length === inputMain.length) {
+          mainResultTemp.push(recipe);
         }
       }
+      mainResult = mainResultTemp;
