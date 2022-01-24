@@ -534,7 +534,8 @@ searchMain.addEventListener("input", function () {
         for (let ingred of recipe.ingredients) {
           recipeIngred.push(ingred.ingredient.toLowerCase());
         }
-        let search = recipe.name.toLowerCase() + " " + recipeIngred.join(" ") + " " + recipe.description.toLowerCase();
+        let search = 
+        recipe.name.toLowerCase() + " " + recipeIngred.join(" ") + " " + recipe.description.toLowerCase();
 
         ///Suppression ponctuation
 
