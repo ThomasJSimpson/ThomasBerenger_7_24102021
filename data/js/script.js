@@ -56,7 +56,6 @@ recipes.forEach((recipe) => {
 
 displayRecipes(mainResult);
 
-
 // Ajouter un tag
 function addTag() {
   const itemTag = document.querySelectorAll(".itemTag");
@@ -205,7 +204,6 @@ function rmvTag() {
         }
       });
 
-
       let tagsHtml = "";
 
       arrayTags.forEach((tag) => {
@@ -239,7 +237,6 @@ function rmvTag() {
         }
       });
       document.querySelector(".tags").innerHTML = tagsHtml;
-
 
       mainResult = recipes;
       if (inputMain.length != 0) {
@@ -284,7 +281,7 @@ function rmvTag() {
   });
 }
 
-//    Afficher les recettes 
+//    Afficher les recettes
 
 function displayRecipes(arr) {
   let suggestion = "";
@@ -489,7 +486,6 @@ searchMain.onclick = function () {
   searchAppli.placeholder = "Appareil";
   document.querySelector(".appliance").className = "appliance filter-title-input color-appliance";
 
- 
   displayRecipes(mainResult);
 };
 
@@ -516,7 +512,6 @@ searchMain.addEventListener("input", function () {
       return arrayTags.every((tag) => [recipe.appliance.toLowerCase(), ...recipeIngred].concat(recipe.ustensils).includes(tag.name.toLowerCase()));
     });
     mainResult = [...new Set([...mainResult])];
-
   }
 
   if (arrayTags.length >= 1) {
@@ -546,7 +541,7 @@ searchMain.addEventListener("input", function () {
         });
 
         let search = recipe.name.toLowerCase() + " " + recipeIngred + " " + recipe.description.toLowerCase();
-
+       
         return inputMain.every((word) => search.includes(word));
       });
 
@@ -555,9 +550,7 @@ searchMain.addEventListener("input", function () {
       }
     }
   }
-
   displayRecipes(mainResult);
-
 });
 
 // Listener Ustensils
@@ -579,7 +572,6 @@ searchUstens.onclick = function () {
   inputApp = "";
   searchAppli.placeholder = "Appareil";
   document.querySelector(".appliance").className = "appliance filter-title-input color-appliance";
-
 
   if (inputUst.length < 3) {
     displayRecipes(mainResult);
@@ -649,7 +641,6 @@ searchUstens.addEventListener("input", function () {
     displayAppliance(mainResult);
     displayIngredients(mainResult);
   } else if (inputUst.length >= 3) {
-
     if (document.querySelector(".filter-ustensils").classList.contains("filter-box-min")) {
       document.querySelector(".filter-ustensils").className = "filter-ustensils color-ustensils filter-box-med";
       if (document.documentElement.clientWidth > 849) {
@@ -694,8 +685,6 @@ searchUstens.addEventListener("input", function () {
     }
 
     document.querySelector(".advListUst").innerHTML = ustensilsHTML;
-
-    displayRecipes(resultUstensils);
   }
   addTag();
 });
@@ -790,7 +779,6 @@ searchAppli.addEventListener("input", function () {
     displayAppliance(mainResult);
     displayIngredients(mainResult);
   } else if (inputApp.length >= 3) {
-
     if (document.querySelector(".filter-appliance").classList.contains("filter-box-min")) {
       document.querySelector(".filter-appliance").className = "filter-appliance color-appliance filter-box-med";
       if (document.documentElement.clientWidth > 849) {
@@ -833,8 +821,6 @@ searchAppli.addEventListener("input", function () {
       applianceHTML = `<li> Aucun résultat</li>`;
     }
     document.querySelector(".advListApp").innerHTML = applianceHTML;
-
-    displayRecipes(resultAppliance);
   }
   addTag();
 });
@@ -883,7 +869,7 @@ arrowIngred.onclick = function () {
   searchAppli.placeholder = "Appareil";
   document.querySelector(".appliance").className = "appliance filter-title-input color-appliance";
 
-  displayAppliance(mainResult); 
+  displayAppliance(mainResult);
   displayIngredients(mainResult);
 
   if (document.querySelector(".filter-ingredients").classList.contains("filter-box-min") || document.querySelector(".filter-ingredients").classList.contains("filter-box-med")) {
@@ -907,7 +893,6 @@ arrowIngred.onclick = function () {
 };
 
 searchIngred.addEventListener("input", function () {
-
   inputIngred = searchIngred.value.toLowerCase().trim();
   let itemList = [];
   let itemList2 = [];
@@ -978,8 +963,6 @@ searchIngred.addEventListener("input", function () {
       ingredHtml = `<li> Aucun résultat</li>`;
     }
     document.querySelector(".advListIngred").innerHTML = ingredHtml;
-
-    displayRecipes(resultIngredients);
   }
   addTag();
 });
