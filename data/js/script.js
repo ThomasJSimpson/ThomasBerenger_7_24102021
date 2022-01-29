@@ -352,7 +352,6 @@ function displayRecipes(arr) {
     chercher « tarte aux pommes », « poisson », etc...</p>`;
     document.querySelector(".recipes-list").innerHTML = suggestion;
   }
-  console.log(arr);
 }
 
 function displayUstensils(arr) {
@@ -492,7 +491,6 @@ searchMain.onclick = function () {
 searchMain.addEventListener("input", function () {
   inputMain = searchMain.value.toLowerCase().trim().split(" ");
   inputMain = inputMain.filter((el) => el != "");
-
   resultOk = [];
   inputMain = [...new Set([...inputMain])];
 
@@ -541,7 +539,7 @@ searchMain.addEventListener("input", function () {
         });
 
         let search = recipe.name.toLowerCase() + " " + recipeIngred + " " + recipe.description.toLowerCase();
-       
+
         return inputMain.every((word) => search.includes(word));
       });
 
