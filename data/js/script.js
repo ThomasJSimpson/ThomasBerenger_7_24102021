@@ -534,8 +534,7 @@ searchMain.addEventListener("input", function () {
         for (let ingred of recipe.ingredients) {
           recipeIngred.push(ingred.ingredient.toLowerCase());
         }
-        let search = 
-        recipe.name.toLowerCase() + " " + recipeIngred.join(" ") + " " + recipe.description.toLowerCase();
+        let search = recipe.name.toLowerCase() + " " + recipeIngred.join(" ") + " " + recipe.description.toLowerCase();
 
         ///Suppression ponctuation
 
@@ -551,34 +550,12 @@ searchMain.addEventListener("input", function () {
         inputLoop: for (let wordInput of inputMain) {
           for (let i = 0; i < search.length; i++) {
             if (wordInput[0] === search[i]) {
-              let stringTest = search.slice(i, i + wordInput.length);
-              console.log("Recette qui passe le test:");
-              console.log(recipe);
-
               
-              console.log("Valeure du mot saisi 'wordInput' = " + wordInput);
-
-              //console.log("Création de la chaîne de caractères 'search' pour la recette, regroupant le nom, les ingrédients et la description:");
-              console.log("search = " + search);
-              console.log("Itération au travers de 'search' à la recherche de la première lettre du mot saisi: '" + wordInput[0] + "'");
-  
-              //console.log("Longueur wordInput: " + wordInput.length);
-              console.log("Découpe de search à partir de la première lettre de wordInput '" + wordInput[0] + "' sur une longueur correspondant à celle de wordInput, ici '" + wordInput.length + "' caractères :");
-
-              console.log("stringTest = " + stringTest);
-
-              console.log("Comparaison de wordInput '" + wordInput + "' et de stringTest '" + stringTest + "'");
+              let stringTest = search.slice(i, i + wordInput.length);
 
               if (stringTest === wordInput) {
-     
                 validWord.push(wordInput);
-                console.log("Lorsque stringTest est égale au mot entré par l'utilisateur, le mot est ajouté au tableau validWord confimant sa présence dans la recette.");
-
-                console.log("validWord =  " + validWord);
                 continue inputLoop;
-              } else {
-                console.log("Le mot saisi n'est pas égale à stringTest");
-
               }
             }
           }
@@ -589,12 +566,7 @@ searchMain.addEventListener("input", function () {
         }
 
         if (validWord.length === inputMain.length) {
-         
-
           mainResultTemp.push(recipe);
-          console.log("Lorsque tous les mots saisis dans le champs de recherche sont présents dans la recette, celle-ci est stockée dans le tableau pour l'affichage : ");
-          console.log("mainResultTemp = ");
-          console.log(mainResultTemp);
           resultOk.push(true);
         }
       }
