@@ -570,12 +570,6 @@ searchUstens.onclick = function () {
   inputApp = "";
   searchAppli.placeholder = "Appareil";
   document.querySelector(".appliance").className = "appliance filter-title-input color-appliance";
-
-  if (inputUst.length < 3) {
-    displayRecipes(mainResult);
-  } else if (inputUst.length > 2) {
-    displayRecipes(resultUstensils);
-  }
 };
 
 arrowUstens.onclick = function () {
@@ -708,12 +702,6 @@ searchAppli.onclick = function () {
   inputIngred = "";
   searchIngred.placeholder = "Ingrédients";
   document.querySelector(".ingredients").className = "ingredients filter-title-input color-ingredients";
-
-  if (inputApp.length < 3) {
-    displayRecipes(mainResult);
-  } else if (inputApp.length > 2) {
-    displayRecipes(resultAppliance);
-  }
 };
 
 arrowAppli.onclick = function () {
@@ -842,12 +830,6 @@ searchIngred.onclick = function () {
   inputApp = "";
   searchAppli.placeholder = "Appareil";
   document.querySelector(".appliance").className = "appliance filter-title-input color-appliance";
-
-  if (inputIngred.length < 3) {
-    displayRecipes(mainResult);
-  } else if (inputIngred.length > 2) {
-    displayRecipes(resultIngredients);
-  }
 };
 
 arrowIngred.onclick = function () {
