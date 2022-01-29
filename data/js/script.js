@@ -204,7 +204,6 @@ function rmvTag() {
           arrayTags = arrayRemove(arrayTags, f);
         }
       });
-      // Mise a jour affichage des TAGS
 
       let tagsHtml = "";
 
@@ -484,7 +483,6 @@ searchMain.onclick = function () {
 searchMain.addEventListener("input", function () {
   inputMain = searchMain.value.toLowerCase().trim().split(" ");
   inputMain = inputMain.filter((el) => el != "");
-
   resultOk = [];
   inputMain = [...new Set([...inputMain])];
 
@@ -503,6 +501,7 @@ searchMain.addEventListener("input", function () {
 
       return arrayTags.every((tag) => [recipe.appliance.toLowerCase(), ...recipeIngred].concat(recipe.ustensils).includes(tag.name.toLowerCase()));
     });
+    mainResult = [...new Set([...mainResult])];
   }
 
   if (arrayTags.length >= 1) {
@@ -550,7 +549,6 @@ searchMain.addEventListener("input", function () {
         inputLoop: for (let wordInput of inputMain) {
           for (let i = 0; i < search.length; i++) {
             if (wordInput[0] === search[i]) {
-              
               let stringTest = search.slice(i, i + wordInput.length);
 
               if (stringTest === wordInput) {
@@ -564,7 +562,6 @@ searchMain.addEventListener("input", function () {
             continue recipeLoop;
           }
         }
-
         if (validWord.length === inputMain.length) {
           mainResultTemp.push(recipe);
           resultOk.push(true);
@@ -573,7 +570,6 @@ searchMain.addEventListener("input", function () {
       mainResult = mainResultTemp;
     }
   }
-
   displayRecipes(mainResult);
 });
 
@@ -596,12 +592,6 @@ searchUstens.onclick = function () {
   inputApp = "";
   searchAppli.placeholder = "Appareil";
   document.querySelector(".appliance").className = "appliance filter-title-input color-appliance";
-
-  if (inputUst.length < 3) {
-    displayRecipes(mainResult);
-  } else if (inputUst.length > 2) {
-    displayRecipes(resultUstensils);
-  }
 };
 
 arrowUstens.onclick = function () {
@@ -734,12 +724,6 @@ searchAppli.onclick = function () {
   inputIngred = "";
   searchIngred.placeholder = "Ingrédients";
   document.querySelector(".ingredients").className = "ingredients filter-title-input color-ingredients";
-
-  if (inputApp.length < 3) {
-    displayRecipes(mainResult);
-  } else if (inputApp.length > 2) {
-    displayRecipes(resultAppliance);
-  }
 };
 
 arrowAppli.onclick = function () {
@@ -787,7 +771,6 @@ arrowAppli.onclick = function () {
 
 searchAppli.addEventListener("input", function () {
   inputApp = searchAppli.value.toLowerCase().trim();
-
   resultAppliance = [];
   let itemList = [];
   let itemList2 = [];
@@ -869,12 +852,6 @@ searchIngred.onclick = function () {
   inputApp = "";
   searchAppli.placeholder = "Appareil";
   document.querySelector(".appliance").className = "appliance filter-title-input color-appliance";
-
-  if (inputIngred.length < 3) {
-    displayRecipes(mainResult);
-  } else if (inputIngred.length > 2) {
-    displayRecipes(resultIngredients);
-  }
 };
 
 arrowIngred.onclick = function () {
@@ -894,6 +871,7 @@ arrowIngred.onclick = function () {
   searchAppli.placeholder = "Appareil";
   document.querySelector(".appliance").className = "appliance filter-title-input color-appliance";
 
+  displayAppliance(mainResult);
   displayIngredients(mainResult);
 
   if (document.querySelector(".filter-ingredients").classList.contains("filter-box-min") || document.querySelector(".filter-ingredients").classList.contains("filter-box-med")) {
@@ -918,7 +896,6 @@ arrowIngred.onclick = function () {
 
 searchIngred.addEventListener("input", function () {
   inputIngred = searchIngred.value.toLowerCase().trim();
-
   let itemList = [];
   let itemList2 = [];
 
